@@ -22,6 +22,7 @@ export default function LoginPage() {
     setBusy(true);
     try {
       if (mode === "login") {
+        // AuthContext → POST http://localhost:5000/api/auth/login (JWT saved in localStorage)
         await login(email, password);
         toast.success("Welcome back");
       } else {
@@ -30,6 +31,7 @@ export default function LoginPage() {
           setBusy(false);
           return;
         }
+        // POST http://localhost:5000/api/auth/register — then same JWT storage as login
         await register(name.trim(), email, password);
         toast.success("Account created");
       }

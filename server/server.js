@@ -10,6 +10,7 @@ import { initSocketServer } from "./socket/index.js";
 import authRoutes from "./routes/auth.js";
 import leadRoutes from "./routes/leads.js";
 import activityRoutes from "./routes/activities.js";
+import analyticsRoutes from "./routes/analytics.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.resolve(__dirname, "..", ".env") });
@@ -45,6 +46,7 @@ app.get("/api/health", (_req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/leads", leadRoutes);
 app.use("/api/activities", activityRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 // Catches errors passed via `next(err)` (e.g. from auth middleware)
 app.use((err, _req, res, _next) => {

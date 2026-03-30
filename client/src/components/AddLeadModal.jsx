@@ -43,6 +43,7 @@ export default function AddLeadModal({ open, onClose, onCreated }) {
       });
       toast.success("Lead created");
       onCreated?.(data);
+      window.dispatchEvent(new Event("leadrift:leads-changed"));
       onClose();
     } catch (err) {
       const msg = err.response?.data?.message || "Could not create lead";

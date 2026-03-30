@@ -107,6 +107,12 @@ export default function KanbanPage() {
   }, [loadLeads]);
 
   useEffect(() => {
+    const onRefresh = () => loadLeads();
+    window.addEventListener("leadrift:leads-changed", onRefresh);
+    return () => window.removeEventListener("leadrift:leads-changed", onRefresh);
+  }, [loadLeads]);
+
+  useEffect(() => {
     if (!socket) return;
     const refresh = () => loadLeads();
     socket.on("lead:created", refresh);

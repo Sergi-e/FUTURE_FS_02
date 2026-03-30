@@ -1,12 +1,13 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { io } from "socket.io-client";
 import { useAuth } from "./AuthContext.jsx";
+import { getApiOrigin } from "../utils/api.js";
 
 const SocketContext = createContext(null);
 
 /**
- * One shared Socket.io connection for the whole app — avoids duplicate sockets
- * and keeps dashboard / kanban / activity feed in sync with the server.
+ * Socket.io must hit the same host as Express. With the client on :5173 and API on :5000,
+ * we connect explicitly instead of relying on the Vite proxy.
  */
 export function SocketProvider({ children }) {
   const { token } = useAuth();
@@ -21,7 +22,7 @@ export function SocketProvider({ children }) {
       return;
     }
 
-    const s = io({
+    const s = io(getApiOrigin(), {
       path: "/socket.io",
       autoConnect: true,
       transports: ["websocket", "polling"],

@@ -44,6 +44,7 @@ export default function ActivityFeed() {
       setItems((prev) => [payload, ...prev].slice(0, 80));
     };
 
+    // Same event the Express API emits from activityController.createActivity
     socket.on("activity:new", onNew);
     return () => {
       socket.off("activity:new", onNew);
@@ -69,9 +70,9 @@ export default function ActivityFeed() {
           </p>
         ) : (
           <AnimatePresence initial={false}>
-            {items.map((a) => (
+            {items.map((a, idx) => (
               <motion.div
-                key={a._id}
+                key={a._id ? String(a._id) : `act-${idx}-${a.createdAt}`}
                 layout
                 initial={{ opacity: 0, x: 8 }}
                 animate={{ opacity: 1, x: 0 }}
