@@ -1,95 +1,102 @@
-# FUTURE_FS_02 — Leadrift
+# Leadrift CRM
 
-A full-stack CRM (**Leadrift**) for the Future Interns FS track: MERN + Socket.io, with a React client (Tailwind, Framer Motion) and an Express API.
+**Leadrift CRM** is a full-stack lead-management app for the Future Interns **Full Stack Web Development** track. Repository name on GitHub: **`FUTURE_FS_02`**.
 
-## Layout
+## Tech stack
+
+| Layer | Technologies |
+|--------|----------------|
+| **Frontend** | React 18, Vite, React Router, Tailwind CSS, Framer Motion, Recharts, @dnd-kit, react-hot-toast, Axios, Socket.io client |
+| **Backend** | Node.js, Express.js, JWT (jsonwebtoken), bcryptjs |
+| **Database** | MongoDB with Mongoose |
+| **Realtime** | Socket.io (lead + activity broadcasts) |
+
+## GitHub
+
+- **Repository name:** `FUTURE_FS_02` — push this project to a public GitHub repo with that name (or your course’s required naming) for submission.
+
+## Project layout
 
 ```
 FUTURE_FS_02/
-├── client/          # Vite + React
-├── server/          # Express, Mongoose, Socket.io
-├── .env             # Local secrets (gitignored — use .env.example as reference)
-└── .env.example
+├── client/          # Vite + React UI
+├── server/          # Express API + Socket.io
+├── .env             # Local secrets (gitignored)
+├── .env.example     # Template for root env
+└── client/.env.example   # Optional VITE_API_URL
 ```
 
 ## Prerequisites
 
-- Node.js 18+
-- A MongoDB database (local or MongoDB Atlas)
+- **Node.js** 18+
+- **MongoDB** — local install or **MongoDB Atlas** (free tier)
 
-## MongoDB Atlas (free tier) — connection string
+## MongoDB Atlas (free) — get a connection URI
 
-Atlas gives you a hosted MongoDB cluster so you do not need a local `mongod` process.
+1. Sign up at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
+2. Create a **free M0 cluster** and a **database user** (save the password).
+3. Under **Network Access**, allow your IP or `0.0.0.0/0` for development.
+4. **Connect** → **Drivers** → copy the **connection string** (`mongodb+srv://...`).
+5. Replace `<password>` with your user password (URL-encode special characters if needed).
+6. Add a database name, e.g. `...mongodb.net/leadrift?retryWrites=true&w=majority`.
 
-1. Go to [https://www.mongodb.com/cloud/atlas](https://www.mongodb.com/cloud/atlas) and sign in or create an account.
-2. Create a **free (M0) cluster** (pick any cloud region close to you).
-3. Under **Database Access**, create a **database user** (username + password). Save the password — you will need it in the URI.
-4. Under **Network Access**, add an IP allowlist entry. For development, **Allow access from anywhere** (`0.0.0.0/0`) is common; for better security, use your current IP only.
-5. Click **Database** → **Connect** on your cluster → **Drivers** → copy the **connection string** (it looks like `mongodb+srv://<user>:<password>@cluster0.xxxxx.mongodb.net/...`).
-6. Replace `<password>` with your database user’s password (URL-encode special characters if needed).
-7. Append a database name, e.g. `...mongodb.net/leadrift?retryWrites=true&w=majority`.
-8. In the project root, copy `.env.example` to `.env` and set:
+## Environment variables
 
-   ```env
-   MONGO_URI=mongodb+srv://YOUR_USER:YOUR_PASSWORD@cluster0.xxxxx.mongodb.net/leadrift?retryWrites=true&w=majority
-   ```
+**Root `.env`** (copy from `.env.example`):
 
-9. Restart the API after changing `.env`.
+| Variable | Purpose |
+|----------|---------|
+| `MONGO_URI` | MongoDB connection string (Atlas `mongodb+srv://` or local `mongodb://127.0.0.1:27017/leadrift`) |
+| `JWT_SECRET` | Long random string for signing JWTs |
+| `PORT` | API port (default `5000`) |
+| `CLIENT_ORIGIN` | Frontend origin for CORS + Socket.io (e.g. `http://localhost:5173`) |
 
-## Setup
+**Optional `client/.env`:**
 
-1. **Environment (root `.env`)**  
-   Set `MONGO_URI` (Atlas or local), `JWT_SECRET`, and `PORT` (default `5000`).  
-   Set `CLIENT_ORIGIN=http://localhost:5173` so the browser can call the API (CORS + Socket.io).
+| Variable | Purpose |
+|----------|---------|
+| `VITE_API_URL` | API **origin only** (no `/api` suffix), default `http://localhost:5000` |
 
-2. **Optional: client API origin (`client/.env`)**  
-   By default the UI calls `http://localhost:5000`. To point at another host, create `client/.env`:
+## Run locally
 
-   ```env
-   VITE_API_URL=http://localhost:5000
-   ```
-
-   Use the **origin only** (no `/api` suffix). Restart `npm run dev` after changing.
-
-3. **Install**
+1. **Install dependencies**
 
    ```bash
    cd server && npm install
    cd ../client && npm install
    ```
 
-4. **Run API** (from `server/`)
+2. **Configure `.env`** at the repo root with `MONGO_URI`, `JWT_SECRET`, `PORT`, and `CLIENT_ORIGIN`.
+
+3. **Start the API** (terminal 1)
 
    ```bash
+   cd server
    npm run dev
    ```
 
-5. **Run client** (from `client/`)
+4. **Start the client** (terminal 2)
 
    ```bash
+   cd client
    npm run dev
    ```
 
-6. **Check**  
-   - UI: [http://localhost:5173](http://localhost:5173)  
-   - API health: [http://localhost:5000/api/health](http://localhost:5000/api/health)
+5. Open **http://localhost:5173** — register or log in, then use Dashboard, Kanban, and lead detail.
 
-## How the frontend talks to the backend
+6. Health check: **http://localhost:5000/api/health**
 
-- **HTTP:** Axios in `client/src/utils/api.js` uses base URL `http://localhost:5000/api` (or `VITE_API_URL` + `/api`). Every request automatically sends `Authorization: Bearer <JWT>` from `localStorage` after login.
-- **Realtime:** Socket.io connects to the same origin (`http://localhost:5000` by default) so `activity:new` and lead events work while the Vite app runs on port 5173.
-
-The Vite dev server can still proxy `/api` and `/socket.io`, but the app is configured to call the API directly so behavior matches a typical split-origin dev setup.
+The UI calls **`http://localhost:5000/api`** by default and opens Socket.io on the same host; keep the API running on the port set in `PORT`.
 
 ## Scripts
 
-| Location | Command         | Purpose        |
-|----------|-----------------|----------------|
-| `server` | `npm run dev`   | API + watch    |
-| `server` | `npm start`     | API, no watch  |
-| `client` | `npm run dev`   | Vite dev       |
+| Location | Command | Purpose |
+|----------|---------|---------|
+| `server` | `npm run dev` | API with file watch |
+| `server` | `npm start` | API without watch |
+| `client` | `npm run dev` | Vite dev server |
 | `client` | `npm run build` | Production build |
 
 ---
 
-Originally: a full stack CRM application developed during my internship at Future Interns, designed to manage client interactions and workflows.
+Originally developed during an internship at Future Interns to practice full-stack CRM workflows (auth, CRUD, realtime updates, and analytics-style views).

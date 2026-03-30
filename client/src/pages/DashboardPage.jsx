@@ -1,15 +1,52 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import api from "../utils/api.js";
 import { useSocket } from "../context/SocketContext.jsx";
 import StatCard from "../components/StatCard.jsx";
 import AnalyticsChart from "../components/AnalyticsChart.jsx";
+import Page from "../components/Page.jsx";
 
 function endOfToday() {
   const d = new Date();
   d.setHours(23, 59, 59, 999);
   return d;
+}
+
+function startOfToday() {
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+function followUpLabel(iso) {
+  const dt = new Date(iso);
+  if (Number.isNaN(dt.getTime())) return "";
+  return dt < startOfToday() ? "Overdue" : "Due today";
+}
+
+function DashboardEmptyState() {
+  return (
+    <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300/90 bg-gradient-to-b from-white/50 to-slate-100/30 py-16 text-center dark:border-white/15 dark:from-white/5 dark:to-transparent">
+      <div
+        className="mb-5 flex h-28 w-28 items-center justify-center rounded-3xl bg-gradient-to-br from-brand-violet/25 via-white/40 to-brand-cyan/25 text-5xl shadow-inner dark:from-brand-violet/20 dark:via-white/5 dark:to-brand-cyan/15"
+        aria-hidden
+      >
+        📊
+      </div>
+      <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
+        Your mission control is quiet
+      </h2>
+      <p className="mt-2 max-w-md text-sm text-slate-600 dark:text-white/55">
+        No leads yet — add one with{" "}
+        <kbd className="rounded border border-slate-300 bg-white px-1.5 py-0.5 text-xs dark:border-white/20 dark:bg-white/10">
+          Ctrl+K
+        </kbd>{" "}
+        or <span className="font-medium text-brand-violet">Add lead</span> in the header. Stats
+        and charts will light up as soon as data lands.
+      </p>
+    </div>
+  );
 }
 
 export default function DashboardPage() {
@@ -61,40 +98,30 @@ export default function DashboardPage() {
     return { total, hot, converted, followUpsDue };
   }, [leads]);
 
+  const urgentFollowUps = useMemo(() => {
+    const dueCutoff = endOfToday();
+    return leads
+      .filter((l) => {
+        if (!l.followUpDate) return false;
+        const dt = new Date(l.followUpDate);
+        return !Number.isNaN(dt.getTime()) && dt <= dueCutoff;
+      })
+      .sort((a, b) => new Date(a.followUpDate) - new Date(b.followUpDate));
+  }, [leads]);
+
   return (
-    <div className="space-y-8">
-      <motion.div
-        initial={{ opacity: 0, y: 6 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="flex flex-col gap-1"
-      >
-        <h1 className="text-2xl font-semibold text-slate-900 dark:text-white">
-          Dashboard
-        </h1>
+    <Page className="space-y-8">
+      <div className="flex flex-col gap-1">
+        <h1 className="text-2xl font-semibold text-slate-900 dark:text-white">Dashboard</h1>
         <p className="text-sm text-slate-500 dark:text-white/50">
           Snapshot of your pipeline — numbers refresh live from the API + sockets.
         </p>
-      </motion.div>
+      </div>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard
-          delay={0}
-          label="Total leads"
-          value={stats.total}
-          icon={<UsersIcon />}
-        />
-        <StatCard
-          delay={0.05}
-          label="Hot leads"
-          value={stats.hot}
-          icon={<FireIcon />}
-        />
-        <StatCard
-          delay={0.1}
-          label="Converted"
-          value={stats.converted}
-          icon={<CheckIcon />}
-        />
+        <StatCard delay={0} label="Total leads" value={stats.total} icon={<UsersIcon />} />
+        <StatCard delay={0.05} label="Hot leads" value={stats.hot} icon={<FireIcon />} />
+        <StatCard delay={0.1} label="Converted" value={stats.converted} icon={<CheckIcon />} />
         <StatCard
           delay={0.15}
           label="Follow-ups due"
@@ -103,8 +130,44 @@ export default function DashboardPage() {
         />
       </div>
 
-      <AnalyticsChart />
-    </div>
+      {urgentFollowUps.length > 0 ? (
+        <section className="glass-card border-red-500/40 bg-red-500/[0.07] p-4 dark:border-red-500/35 dark:bg-red-500/10">
+          <h2 className="text-sm font-semibold text-red-700 dark:text-red-300">
+            Follow-up alerts — today or overdue
+          </h2>
+          <p className="text-xs text-red-600/90 dark:text-red-200/70">
+            These leads need attention (highlighted in red).
+          </p>
+          <ul className="mt-3 space-y-2">
+            {urgentFollowUps.map((l) => (
+              <li key={l._id}>
+                <Link
+                  to={`/leads/${l._id}`}
+                  className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-red-500/35 bg-red-500/10 px-3 py-2 text-sm transition hover:bg-red-500/15 dark:border-red-400/30 dark:bg-red-500/15 dark:hover:bg-red-500/20"
+                >
+                  <span className="font-medium text-red-900 dark:text-red-100">{l.name}</span>
+                  <span className="text-xs font-semibold uppercase tracking-wide text-red-700 dark:text-red-300">
+                    {followUpLabel(l.followUpDate)} ·{" "}
+                    {new Date(l.followUpDate).toLocaleString(undefined, {
+                      month: "short",
+                      day: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {leads.length === 0 ? (
+        <DashboardEmptyState />
+      ) : (
+        <AnalyticsChart />
+      )}
+    </Page>
   );
 }
 

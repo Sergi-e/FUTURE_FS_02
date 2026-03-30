@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import { SocketProvider } from "./context/SocketContext.jsx";
+import { AddLeadCommandProvider } from "./context/AddLeadCommandContext.jsx";
 import App from "./App.jsx";
 import "./index.css";
 
@@ -13,9 +14,11 @@ createRoot(document.getElementById("root")).render(
     <ThemeProvider>
       <AuthProvider>
         <BrowserRouter>
-          <SocketProvider>
-            <App />
-          </SocketProvider>
+          <AddLeadCommandProvider>
+            <SocketProvider>
+              <App />
+            </SocketProvider>
+          </AddLeadCommandProvider>
         </BrowserRouter>
       </AuthProvider>
     </ThemeProvider>

@@ -1,6 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useTheme } from "../context/ThemeContext.jsx";
+import { useAddLeadCommand } from "../context/AddLeadCommandContext.jsx";
 
 const linkClass =
   "rounded-lg px-3 py-2 text-sm font-medium transition text-slate-600 hover:bg-slate-200/80 hover:text-slate-900 dark:text-white/70 dark:hover:bg-white/10 dark:hover:text-white";
@@ -8,9 +9,10 @@ const linkClass =
 const activeClass =
   "bg-brand-violet/15 text-brand-violet dark:bg-brand-violet/20 dark:text-violet-200";
 
-export default function Navbar({ onOpenAddLead }) {
+export default function Navbar() {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const { openAddLead } = useAddLeadCommand();
 
   return (
     <header className="glass-card border-b border-slate-200/60 px-4 py-3 dark:border-white/10">
@@ -39,18 +41,16 @@ export default function Navbar({ onOpenAddLead }) {
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          {onOpenAddLead ? (
-            <button
-              type="button"
-              onClick={onOpenAddLead}
-              className="rounded-lg bg-brand-violet px-3 py-2 text-sm font-medium text-white shadow-neon transition hover:bg-violet-600 dark:hover:bg-violet-500"
-            >
-              Add lead
-              <span className="ml-2 hidden text-xs font-normal opacity-80 sm:inline">
-                Ctrl+K
-              </span>
-            </button>
-          ) : null}
+          <button
+            type="button"
+            onClick={openAddLead}
+            className="rounded-lg bg-brand-violet px-3 py-2 text-sm font-medium text-white shadow-neon transition hover:bg-violet-600 dark:hover:bg-violet-500"
+          >
+            Add lead
+            <span className="ml-2 hidden text-xs font-normal opacity-80 sm:inline">
+              Ctrl+K
+            </span>
+          </button>
 
           <button
             type="button"

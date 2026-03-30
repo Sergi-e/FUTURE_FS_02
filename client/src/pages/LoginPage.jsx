@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext.jsx";
+import Page from "../components/Page.jsx";
 
 export default function LoginPage() {
   const { isAuthenticated, login, register } = useAuth();
@@ -48,12 +48,8 @@ export default function LoginPage() {
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#06060a] p-6 text-white">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_120%_80%_at_50%_-20%,rgba(124,58,237,0.22),transparent)]" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_100%_50%,rgba(6,182,212,0.1),transparent)]" />
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.35 }}
-        className="relative w-full max-w-md rounded-2xl border border-white/20 bg-white/10 p-8 shadow-2xl backdrop-blur-md"
-      >
+      <Page className="relative w-full max-w-md">
+        <div className="rounded-2xl border border-white/20 bg-white/10 p-8 shadow-2xl backdrop-blur-md">
         <h1 className="text-center text-2xl font-semibold">Leadrift</h1>
         <p className="mt-1 text-center text-sm text-white/55">
           {mode === "login" ? "Sign in to your workspace" : "Create an account"}
@@ -130,7 +126,8 @@ export default function LoginPage() {
         <p className="mt-6 text-center text-xs text-white/45">
           By continuing you agree this is a demo CRM for coursework.
         </p>
-      </motion.div>
+        </div>
+      </Page>
     </div>
   );
 }

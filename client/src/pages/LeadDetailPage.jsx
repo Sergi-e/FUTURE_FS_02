@@ -1,15 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import api from "../utils/api.js";
 import { useSocket } from "../context/SocketContext.jsx";
-
-const SCORE_BADGE = {
-  hot: { label: "Hot 🔥", class: "bg-orange-500/15 text-orange-800 dark:text-orange-200" },
-  warm: { label: "Warm 🌤️", class: "bg-amber-500/15 text-amber-900 dark:text-amber-100" },
-  cold: { label: "Cold ❄️", class: "bg-sky-500/15 text-sky-900 dark:text-sky-100" },
-};
+import Page from "../components/Page.jsx";
+import ScoreBadge from "../components/ScoreBadge.jsx";
 
 const STATUSES = ["new", "contacted", "qualified", "converted", "lost"];
 
@@ -126,15 +121,16 @@ export default function LeadDetailPage() {
 
   if (loading || !lead) {
     return (
-      <p className="text-sm text-slate-500 dark:text-white/50">Loading lead…</p>
+      <Page>
+        <p className="text-sm text-slate-500 dark:text-white/50">Loading lead…</p>
+      </Page>
     );
   }
 
   const score = lead.score || "cold";
-  const badge = SCORE_BADGE[score] || SCORE_BADGE.cold;
 
   return (
-    <div className="space-y-6">
+    <Page className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <Link
@@ -149,11 +145,7 @@ export default function LeadDetailPage() {
           <p className="text-sm text-slate-500 dark:text-white/50">{lead.email}</p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <span
-            className={`rounded-lg border border-white/10 px-3 py-1.5 text-sm font-semibold ${badge.class}`}
-          >
-            {badge.label}
-          </span>
+          <ScoreBadge score={score} className="!px-3 !py-1 !text-[11px]" />
           <button
             type="button"
             onClick={handleDelete}
@@ -165,10 +157,8 @@ export default function LeadDetailPage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <motion.form
+        <form
           onSubmit={saveDetails}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
           className="glass-card space-y-4 p-5 lg:col-span-1"
         >
           <h2 className="text-sm font-semibold text-slate-900 dark:text-white">Details</h2>
@@ -207,14 +197,9 @@ export default function LeadDetailPage() {
           >
             {savingMeta ? "Saving…" : "Save changes"}
           </button>
-        </motion.form>
+        </form>
 
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.05 }}
-          className="glass-card space-y-4 p-5 lg:col-span-2"
-        >
+        <div className="glass-card space-y-4 p-5 lg:col-span-2">
           <h2 className="text-sm font-semibold text-slate-900 dark:text-white">Notes</h2>
           <form onSubmit={addNote} className="flex flex-col gap-2 sm:flex-row">
             <input
@@ -245,17 +230,15 @@ export default function LeadDetailPage() {
                   >
                     <p className="text-slate-800 dark:text-white/90">{n.text}</p>
                     <p className="mt-1 text-[11px] text-slate-400 dark:text-white/40">
-                      {n.createdAt
-                        ? new Date(n.createdAt).toLocaleString()
-                        : ""}
+                      {n.createdAt ? new Date(n.createdAt).toLocaleString() : ""}
                       {n.author?.name ? ` · ${n.author.name}` : ""}
                     </p>
                   </li>
                 ))
             )}
           </ul>
-        </motion.div>
+        </div>
       </div>
-    </div>
+    </Page>
   );
 }
