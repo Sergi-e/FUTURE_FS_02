@@ -1,0 +1,23 @@
+# Required ignores
+node_modules/
+.env
+dist/
+.DS_Store
+*.log
+
+# Dependencies (nested installs)
+client/node_modules/
+server/node_modules/
+
+# Extra env variants
+.env.local
+.env.*.local
+
+# OS
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo

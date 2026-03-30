@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Dark glassmorphism base: subtle grid + vignette so pages feel like a control room,
+  not a flat gray box. Components will stack frosted panels on top of this.
+*/
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-surface-deep font-sans text-white;
+    background-image:
+      radial-gradient(ellipse 120% 80% at 50% -20%, rgba(168, 85, 247, 0.15), transparent),
+      radial-gradient(ellipse 80% 50% at 100% 50%, rgba(34, 211, 238, 0.08), transparent),
+      linear-gradient(180deg, #0a0a0f 0%, #06060a 100%);
+    background-attachment: fixed;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply border border-white/10 bg-white/[0.06] shadow-glass backdrop-blur-panel;
+  }
+}
