@@ -1,16 +1,29 @@
+import { Navigate, Route, Routes } from "react-router-dom";
+import { useAuth } from "./context/AuthContext.jsx";
+import ProtectedLayout from "./components/ProtectedLayout.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
+import DashboardPage from "./pages/DashboardPage.jsx";
+import KanbanPage from "./pages/KanbanPage.jsx";
+import LeadDetailPage from "./pages/LeadDetailPage.jsx";
+
+function HomeRedirect() {
+  const { isAuthenticated } = useAuth();
+  return <Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />;
+}
+
 export default function App() {
   return (
-    <div className="min-h-screen bg-surface-deep text-white antialiased">
-      <div className="flex min-h-screen items-center justify-center p-8">
-        <div className="glass-panel max-w-md rounded-2xl p-8 text-center shadow-neon">
-          <h1 className="text-2xl font-semibold tracking-tight text-neon-cyan">
-            Leadrift
-          </h1>
-          <p className="mt-2 text-sm text-white/60">
-            Foundation ready — dashboard, kanban, and lead flows ship next.
-          </p>
-        </div>
-      </div>
-    </div>
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+
+      <Route element={<ProtectedLayout />}>
+        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/kanban" element={<KanbanPage />} />
+        <Route path="/leads/:id" element={<LeadDetailPage />} />
+      </Route>
+
+      <Route path="/" element={<HomeRedirect />} />
+      <Route path="*" element={<HomeRedirect />} />
+    </Routes>
   );
 }

@@ -5,7 +5,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Electric violet + cyan neon — glass UI will lean on these later
+        brand: {
+          violet: "#7C3AED",
+          cyan: "#06B6D4",
+        },
         neon: {
           violet: "#a855f7",
           cyan: "#22d3ee",
@@ -27,7 +30,7 @@ export default {
       },
       boxShadow: {
         glass: "0 8px 32px rgba(0, 0, 0, 0.4)",
-        neon: "0 0 24px rgba(168, 85, 247, 0.35), 0 0 48px rgba(34, 211, 238, 0.12)",
+        neon: "0 0 24px rgba(124, 58, 237, 0.35), 0 0 48px rgba(6, 182, 212, 0.12)",
       },
       backdropBlur: {
         panel: "16px",
