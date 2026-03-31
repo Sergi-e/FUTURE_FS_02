@@ -39,7 +39,7 @@ export default function LeadCard({
     </>
   );
 
-  const className = `block rounded-lg border border-slate-200/80 bg-white/50 p-3 shadow-sm transition will-change-transform dark:border-white/10 dark:bg-white/5 ${
+  const className = `block rounded-lg border border-slate-200/80 bg-white/50 p-3 shadow-sm transition will-change-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-violet/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-white/10 dark:bg-white/5 dark:focus-visible:ring-offset-surface-deep ${
     isDragging
       ? "scale-[1.02] cursor-grabbing opacity-90 shadow-xl ring-2 ring-brand-violet/40"
       : "cursor-grab hover:border-brand-violet/40 dark:hover:border-brand-violet/35"
