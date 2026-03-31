@@ -17,7 +17,10 @@ export default function StatCard({ icon, value, label, delay = 0 }) {
             {value}
           </p>
         </div>
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-brand-violet/15 text-brand-violet dark:bg-brand-violet/20 dark:text-violet-300">
+        <div
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-brand-violet/15 text-brand-violet dark:bg-brand-violet/20 dark:text-violet-300"
+          aria-hidden
+        >
           {icon}
         </div>
       </div>
