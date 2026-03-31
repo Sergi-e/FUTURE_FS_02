@@ -1,19 +1,14 @@
-import path from "path";
-import { fileURLToPath } from "url";
+import "./loadEnv.js";
 import express from "express";
 import cors from "cors";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import mongoose from "mongoose";
-import dotenv from "dotenv";
 import { initSocketServer } from "./socket/index.js";
 import authRoutes from "./routes/auth.js";
 import leadRoutes from "./routes/leads.js";
 import activityRoutes from "./routes/activities.js";
 import analyticsRoutes from "./routes/analytics.js";
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: path.resolve(__dirname, "..", ".env") });
 
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
