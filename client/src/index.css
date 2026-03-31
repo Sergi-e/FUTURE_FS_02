@@ -25,6 +25,12 @@
   html:not(.dark) body {
     background-image: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 55%, #f1f5f9 100%);
   }
+
+  a:focus-visible,
+  button:focus-visible,
+  summary:focus-visible {
+    @apply outline-none ring-2 ring-brand-violet/70 ring-offset-2 ring-offset-slate-100 dark:ring-offset-surface-deep;
+  }
 }
 
 /* Spec: glass cards — tweak slightly in light mode so text stays readable */
