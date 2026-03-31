@@ -114,7 +114,7 @@ function KanbanColumn({ status, title, headerClass, ringClass, leads, children }
   return (
     <div
       ref={setNodeRef}
-      className={`flex min-h-[min(70vh,520px)] flex-1 flex-col overflow-hidden rounded-xl border border-slate-200/70 bg-white/30 shadow-lg backdrop-blur-md transition dark:border-white/15 dark:bg-white/5 ${
+      className={`flex min-h-[min(70vh,520px)] min-w-[260px] flex-1 shrink-0 flex-col overflow-hidden rounded-xl border border-slate-200/70 bg-white/30 shadow-lg backdrop-blur-md transition dark:border-white/15 dark:bg-white/5 lg:min-w-0 lg:shrink ${
         isOver ? `ring-2 ring-offset-2 ring-offset-transparent dark:ring-offset-surface-deep ${ringClass}` : ""
       }`}
     >
@@ -238,8 +238,7 @@ export default function KanbanPage() {
       <div>
         <h1 className="text-2xl font-semibold text-slate-900 dark:text-white">Kanban</h1>
         <p className="text-sm text-slate-500 dark:text-white/50">
-          Drag cards across columns — each drop calls{" "}
-          <code className="text-brand-cyan">PATCH /api/leads/:id</code>.
+          Drag cards between stages to update a lead&apos;s status. Changes save automatically to your workspace.
         </p>
       </div>
 
@@ -253,7 +252,7 @@ export default function KanbanPage() {
           onDragCancel={() => setActiveId(null)}
           onDragEnd={handleDragEnd}
         >
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
+          <div className="-mx-4 flex flex-col gap-4 overflow-x-auto px-4 pb-1 lg:mx-0 lg:flex-row lg:items-start lg:overflow-visible lg:px-0">
             {COLUMNS.map((col) => (
               <KanbanColumn
                 key={col.status}
