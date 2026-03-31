@@ -125,7 +125,7 @@ export default function AnalyticsChart() {
           Weekly lead growth
         </h3>
         <p className="text-xs text-slate-500 dark:text-white/50">
-          Line chart — new leads per week from the API
+          New leads captured each week — trend at a glance
         </p>
         <div className="mt-4 h-64 w-full">
           <ResponsiveContainer width="100%" height="100%">
