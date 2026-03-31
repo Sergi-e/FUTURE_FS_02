@@ -5,10 +5,7 @@ import { getApiOrigin } from "../utils/api.js";
 
 const SocketContext = createContext(null);
 
-/**
- * Socket.io must hit the same host as Express. With the client on :5173 and API on :5000,
- * we connect explicitly instead of relying on the Vite proxy.
- */
+/** Realtime channel — uses the same origin as the REST client (`getApiOrigin`). */
 export function SocketProvider({ children }) {
   const { token } = useAuth();
   const [socket, setSocket] = useState(null);
