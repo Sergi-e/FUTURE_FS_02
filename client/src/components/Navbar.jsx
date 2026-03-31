@@ -24,7 +24,7 @@ export default function Navbar() {
           >
             Leadrift
           </Link>
-          <nav className="flex items-center gap-1">
+          <nav className="flex items-center gap-1" aria-label="Primary">
             <NavLink
               to="/dashboard"
               className={({ isActive }) => `${linkClass} ${isActive ? activeClass : ""}`}
