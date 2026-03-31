@@ -1,7 +1,6 @@
 import axios from "axios";
 
-// Talk to Express directly on port 5000 (CORS is enabled for the Vite dev origin).
-// Override with VITE_API_URL in client/.env if you deploy the API elsewhere (no trailing slash).
+/** Base URL for REST calls (`/api` is appended). Set `VITE_API_URL` when the API is not on the default dev origin (no trailing slash). */
 const raw = import.meta.env.VITE_API_URL || "http://localhost:5000";
 const origin = String(raw).replace(/\/$/, "");
 const api = axios.create({
