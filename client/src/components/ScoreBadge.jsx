@@ -14,6 +14,7 @@ export default function ScoreBadge({ score, className = "" }) {
   const key = score === "hot" || score === "warm" ? score : "cold";
   return (
     <span
+      title={`Engagement: ${key}`}
       className={`inline-flex shrink-0 items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-wide ring-1 ring-white/30 ${STYLES[key]} ${className}`}
     >
       {LABELS[key]}
