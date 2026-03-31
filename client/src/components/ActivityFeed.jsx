@@ -44,7 +44,6 @@ export default function ActivityFeed() {
       setItems((prev) => [payload, ...prev].slice(0, 80));
     };
 
-    // Same event the Express API emits from activityController.createActivity
     socket.on("activity:new", onNew);
     return () => {
       socket.off("activity:new", onNew);
@@ -52,13 +51,16 @@ export default function ActivityFeed() {
   }, [socket]);
 
   return (
-    <aside className="hidden w-[300px] shrink-0 border-l border-slate-200/60 bg-white/30 backdrop-blur-md dark:border-white/10 dark:bg-black/20 lg:flex lg:flex-col">
+    <aside
+      className="hidden w-[300px] shrink-0 border-l border-slate-200/60 bg-white/30 backdrop-blur-md dark:border-white/10 dark:bg-black/20 lg:flex lg:flex-col"
+      aria-label="Live activity"
+    >
       <div className="border-b border-slate-200/60 px-4 py-3 dark:border-white/10">
         <h2 className="text-sm font-semibold text-slate-900 dark:text-white">
           Live activity
         </h2>
         <p className="text-xs text-slate-500 dark:text-white/50">
-          Socket.io stream from the API
+          Live updates as leads and notes change
         </p>
       </div>
       <div className="flex-1 space-y-2 overflow-y-auto p-3">
