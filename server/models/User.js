@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema(
       enum: ["admin", "user"],
       default: "user",
     },
+    lastLoginAt: { type: Date, default: null },
   },
   { timestamps: true }
 );
@@ -26,6 +27,7 @@ userSchema.methods.toSafeObject = function toSafeObject() {
     name: this.name,
     email: this.email,
     role: this.role,
+    lastLoginAt: this.lastLoginAt ?? null,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
   };

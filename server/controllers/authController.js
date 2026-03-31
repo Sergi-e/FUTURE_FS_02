@@ -30,12 +30,14 @@ export async function register(req, res) {
     const salt = await bcrypt.genSalt(10);
     const hashed = await bcrypt.hash(password, salt);
 
+    const now = new Date();
     const user = await User.create({
       name: name.trim(),
       email: email.toLowerCase().trim(),
       password: hashed,
       // Keep everyone as "user" here — promoting admins should be a separate, trusted flow.
       role: "user",
+      lastLoginAt: now,
     });
 
     const token = signToken(user._id);
@@ -70,11 +72,14 @@ export async function login(req, res) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
+    const now = new Date();
+    await User.updateOne({ _id: user._id }, { $set: { lastLoginAt: now } });
+
     const token = signToken(user._id);
-    user.password = undefined;
+    const sessionUser = await User.findById(user._id);
     res.json({
       token,
-      user: user.toSafeObject(),
+      user: sessionUser.toSafeObject(),
     });
   } catch (err) {
     console.error("login:", err);
