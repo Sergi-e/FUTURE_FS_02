@@ -22,7 +22,6 @@ export default function LoginPage() {
     setBusy(true);
     try {
       if (mode === "login") {
-        // AuthContext → POST http://localhost:5000/api/auth/login (JWT saved in localStorage)
         await login(email, password);
         toast.success("Welcome back");
       } else {
@@ -31,7 +30,6 @@ export default function LoginPage() {
           setBusy(false);
           return;
         }
-        // POST http://localhost:5000/api/auth/register — then same JWT storage as login
         await register(name.trim(), email, password);
         toast.success("Account created");
       }
@@ -50,82 +48,82 @@ export default function LoginPage() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_100%_50%,rgba(6,182,212,0.1),transparent)]" />
       <Page className="relative w-full max-w-md">
         <div className="rounded-2xl border border-white/20 bg-white/10 p-8 shadow-2xl backdrop-blur-md">
-        <h1 className="text-center text-2xl font-semibold">Leadrift</h1>
-        <p className="mt-1 text-center text-sm text-white/55">
-          {mode === "login" ? "Sign in to your workspace" : "Create an account"}
-        </p>
+          <h1 className="text-center text-2xl font-semibold">Leadrift</h1>
+          <p className="mt-1 text-center text-sm text-white/55">
+            {mode === "login" ? "Sign in to your workspace" : "Create an account"}
+          </p>
 
-        <div className="mt-6 flex rounded-lg bg-black/30 p-1">
-          <button
-            type="button"
-            className={`flex-1 rounded-md py-2 text-sm font-medium transition ${
-              mode === "login"
-                ? "bg-white/10 text-white shadow"
-                : "text-white/55"
-            }`}
-            onClick={() => setMode("login")}
-          >
-            Login
-          </button>
-          <button
-            type="button"
-            className={`flex-1 rounded-md py-2 text-sm font-medium transition ${
-              mode === "register"
-                ? "bg-white/10 text-white shadow"
-                : "text-white/55"
-            }`}
-            onClick={() => setMode("register")}
-          >
-            Register
-          </button>
-        </div>
+          <div className="mt-6 flex rounded-lg bg-black/30 p-1">
+            <button
+              type="button"
+              className={`flex-1 rounded-md py-2 text-sm font-medium transition ${
+                mode === "login"
+                  ? "bg-white/10 text-white shadow"
+                  : "text-white/55"
+              }`}
+              onClick={() => setMode("login")}
+            >
+              Login
+            </button>
+            <button
+              type="button"
+              className={`flex-1 rounded-md py-2 text-sm font-medium transition ${
+                mode === "register"
+                  ? "bg-white/10 text-white shadow"
+                  : "text-white/55"
+              }`}
+              onClick={() => setMode("register")}
+            >
+              Register
+            </button>
+          </div>
 
-        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-          {mode === "register" ? (
+          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+            {mode === "register" ? (
+              <label className="block text-xs font-medium text-white/65">
+                Name
+                <input
+                  required
+                  className="mt-1 w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2.5 text-sm text-white outline-none ring-2 ring-transparent transition placeholder:text-white/30 focus:ring-brand-violet/50"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </label>
+            ) : null}
             <label className="block text-xs font-medium text-white/65">
-              Name
+              Email
               <input
                 required
-                className="mt-1 w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2.5 text-sm text-white outline-none ring-2 ring-transparent transition placeholder:text-white/30 focus:ring-brand-violet/50"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                type="email"
+                autoComplete="email"
+                className="mt-1 w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2.5 text-sm text-white outline-none ring-2 ring-transparent transition focus:ring-brand-violet/50"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </label>
-          ) : null}
-          <label className="block text-xs font-medium text-white/65">
-            Email
-            <input
-              required
-              type="email"
-              autoComplete="email"
-              className="mt-1 w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2.5 text-sm text-white outline-none ring-2 ring-transparent transition focus:ring-brand-violet/50"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </label>
-          <label className="block text-xs font-medium text-white/65">
-            Password
-            <input
-              required
-              type="password"
-              autoComplete={mode === "login" ? "current-password" : "new-password"}
-              className="mt-1 w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2.5 text-sm text-white outline-none ring-2 ring-transparent transition focus:ring-brand-violet/50"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </label>
-          <button
-            type="submit"
-            disabled={busy}
-            className="w-full rounded-lg bg-brand-violet py-2.5 text-sm font-semibold text-white shadow-neon transition hover:bg-violet-600 disabled:opacity-60 dark:hover:bg-violet-500"
-          >
-            {busy ? "Please wait…" : mode === "login" ? "Sign in" : "Create account"}
-          </button>
-        </form>
+            <label className="block text-xs font-medium text-white/65">
+              Password
+              <input
+                required
+                type="password"
+                autoComplete={mode === "login" ? "current-password" : "new-password"}
+                className="mt-1 w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2.5 text-sm text-white outline-none ring-2 ring-transparent transition focus:ring-brand-violet/50"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </label>
+            <button
+              type="submit"
+              disabled={busy}
+              className="w-full rounded-lg bg-brand-violet py-2.5 text-sm font-semibold text-white shadow-neon transition hover:bg-violet-600 disabled:opacity-60 dark:hover:bg-violet-500"
+            >
+              {busy ? "Please wait…" : mode === "login" ? "Sign in" : "Create account"}
+            </button>
+          </form>
 
-        <p className="mt-6 text-center text-xs text-white/45">
-          By continuing you agree this is a demo CRM for coursework.
-        </p>
+          <p className="mt-6 text-center text-xs text-white/45">
+            By continuing you agree to your organization&apos;s terms and acceptable use policy.
+          </p>
         </div>
       </Page>
     </div>
