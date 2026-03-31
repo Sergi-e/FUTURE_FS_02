@@ -1,6 +1,11 @@
 import { motion } from "framer-motion";
 
-/** Shared page shell — fade + slide up so route changes feel intentional, not jumpy. */
+/**
+ * Shared page shell — fade + slide on route change.
+ * @param {object} props
+ * @param {import("react").ReactNode} props.children
+ * @param {string} [props.className]
+ */
 export default function Page({ children, className = "" }) {
   return (
     <motion.div
