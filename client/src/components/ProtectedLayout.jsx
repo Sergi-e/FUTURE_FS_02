@@ -1,12 +1,12 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../context/AuthContext.jsx";
+import { useHasSession } from "../hooks/useHasSession.js";
 import Navbar from "./Navbar.jsx";
 import ActivityFeed from "./ActivityFeed.jsx";
 
 export default function ProtectedLayout() {
-  const { token } = useAuth();
+  const hasSession = useHasSession();
 
-  if (!token) {
+  if (!hasSession) {
     return <Navigate to="/login" replace />;
   }
 
