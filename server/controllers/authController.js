@@ -35,7 +35,7 @@ export async function register(req, res) {
     const now = new Date();
     const user = await User.create({
       name: name.trim(),
-      email: email.toLowerCase().trim(),
+      email: emailNorm,
       password: hashed,
       // Keep everyone as "user" here — promoting admins should be a separate, trusted flow.
       role: "user",
