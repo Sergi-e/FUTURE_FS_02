@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import { normalizeEmail } from "../utils/email.js";
 
 const JWT_EXPIRES = "7d";
 
