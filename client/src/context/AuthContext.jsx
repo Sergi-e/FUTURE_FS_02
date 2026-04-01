@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import api from "../utils/api.js";
+import { normalizeClientEmail } from "../utils/authHelpers.js";
 import {
   LEADRIFT_TOKEN_KEY,
   LEADRIFT_USER_KEY,
@@ -45,17 +46,30 @@ export function AuthProvider({ children }) {
     setUser(nextUser);
   }, []);
 
-  const login = useCallback(async (email, password) => {
-    const { data } = await api.post("/auth/login", { email, password });
-    persistSession(data.token, data.user);
-    return data;
-  }, [persistSession]);
+  const login = useCallback(
+    async (email, password) => {
+      const { data } = await api.post("/auth/login", {
+        email: normalizeClientEmail(email),
+        password,
+      });
+      persistSession(data.token, data.user);
+      return data;
+    },
+    [persistSession]
+  );
 
-  const register = useCallback(async (name, email, password) => {
-    const { data } = await api.post("/auth/register", { name, email, password });
-    persistSession(data.token, data.user);
-    return data;
-  }, [persistSession]);
+  const register = useCallback(
+    async (name, email, password) => {
+      const { data } = await api.post("/auth/register", {
+        name,
+        email: normalizeClientEmail(email),
+        password,
+      });
+      persistSession(data.token, data.user);
+      return data;
+    },
+    [persistSession]
+  );
 
   const logout = useCallback(() => {
     persistSession(null, null);
