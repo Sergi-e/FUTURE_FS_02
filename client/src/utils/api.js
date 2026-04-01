@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LEADRIFT_TOKEN_KEY } from "../constants/session.js";
+import { LEADRIFT_TOKEN_KEY, LEADRIFT_USER_KEY } from "../constants/session.js";
 
 /** Base URL for REST calls (`/api` is appended). Set `VITE_API_URL` when the API is not on the default dev origin (no trailing slash). */
 const raw = import.meta.env.VITE_API_URL || "http://localhost:5000";
@@ -27,8 +27,8 @@ api.interceptors.response.use(
   (err) => {
     const url = err.config?.url || "";
     if (err.response?.status === 401 && !isAuthPath(url)) {
-      localStorage.removeItem("leadrift_token");
-      localStorage.removeItem("leadrift_user");
+      localStorage.removeItem(LEADRIFT_TOKEN_KEY);
+      localStorage.removeItem(LEADRIFT_USER_KEY);
       window.dispatchEvent(new Event("leadrift:unauthorized"));
     }
     return Promise.reject(err);
