@@ -37,6 +37,16 @@ export function AuthProvider({ children }) {
     return () => window.removeEventListener("leadrift:unauthorized", onUnauthorized);
   }, []);
 
+  useEffect(() => {
+    const onStorage = (e) => {
+      if (e.key !== LEADRIFT_TOKEN_KEY && e.key !== LEADRIFT_USER_KEY) return;
+      setToken(localStorage.getItem(LEADRIFT_TOKEN_KEY));
+      setUser(readStoredUser());
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
+
   const persistSession = useCallback((nextToken, nextUser) => {
     if (nextToken) localStorage.setItem(LEADRIFT_TOKEN_KEY, nextToken);
     else localStorage.removeItem(LEADRIFT_TOKEN_KEY);
