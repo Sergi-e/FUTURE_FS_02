@@ -42,5 +42,7 @@ export default api;
 
 /** Same origin as `api` but without `/api` — used by Socket.io. */
 export function getApiOrigin() {
-  return origin;
+  if (origin) return origin;
+  if (typeof window !== "undefined") return window.location.origin;
+  return "http://localhost:5000";
 }
