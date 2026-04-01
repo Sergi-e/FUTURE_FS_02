@@ -16,7 +16,8 @@ export async function register(req, res) {
       return res.status(500).json({ message: "Server missing JWT_SECRET" });
     }
     const { name, email, password } = req.body;
-    if (!name || !email || !password) {
+    const emailNorm = normalizeEmail(email);
+    if (!name?.trim() || !emailNorm || !password) {
       return res.status(400).json({ message: "Name, email, and password are required" });
     }
     if (password.length < 6) {
