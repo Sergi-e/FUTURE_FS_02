@@ -19,10 +19,12 @@ export default function LoginPage() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    const emailTrimmed = email.trim();
+    const passwordValue = password;
     setBusy(true);
     try {
       if (mode === "login") {
-        await login(email, password);
+        await login(emailTrimmed, passwordValue);
         toast.success("Welcome back");
       } else {
         if (!name.trim()) {
@@ -30,7 +32,7 @@ export default function LoginPage() {
           setBusy(false);
           return;
         }
-        await register(name.trim(), email, password);
+        await register(name.trim(), emailTrimmed, passwordValue);
         toast.success("Account created");
       }
       navigate("/dashboard", { replace: true });
