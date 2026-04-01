@@ -1,4 +1,5 @@
 import axios from "axios";
+import { LEADRIFT_TOKEN_KEY } from "../constants/session.js";
 
 /** Base URL for REST calls (`/api` is appended). Set `VITE_API_URL` when the API is not on the default dev origin (no trailing slash). */
 const raw = import.meta.env.VITE_API_URL || "http://localhost:5000";
@@ -9,7 +10,7 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("leadrift_token");
+  const token = localStorage.getItem(LEADRIFT_TOKEN_KEY);
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
