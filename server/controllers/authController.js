@@ -24,7 +24,7 @@ export async function register(req, res) {
       return res.status(400).json({ message: "Password should be at least 6 characters" });
     }
 
-    const existing = await User.findOne({ email: email.toLowerCase() });
+    const existing = await User.findOne({ email: emailNorm });
     if (existing) {
       return res.status(409).json({ message: "That email is already registered" });
     }
