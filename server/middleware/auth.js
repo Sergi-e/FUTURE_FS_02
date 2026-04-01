@@ -17,7 +17,11 @@ export async function protect(req, res, next) {
     }
 
     const decoded = jwt.verify(token, secret);
-    const user = await User.findById(decoded.userId);
+    const userId = decoded.userId != null ? String(decoded.userId) : null;
+    if (!userId) {
+      return res.status(401).json({ message: "Not authorized — invalid token" });
+    }
+    const user = await User.findById(userId);
     if (!user) {
       return res.status(401).json({ message: "User no longer exists" });
     }
