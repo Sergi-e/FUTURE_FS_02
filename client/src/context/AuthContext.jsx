@@ -7,15 +7,16 @@ import {
   useState,
 } from "react";
 import api from "../utils/api.js";
-
-const TOKEN_KEY = "leadrift_token";
-const USER_KEY = "leadrift_user";
+import {
+  LEADRIFT_TOKEN_KEY,
+  LEADRIFT_USER_KEY,
+} from "../constants/session.js";
 
 const AuthContext = createContext(null);
 
 function readStoredUser() {
   try {
-    const raw = localStorage.getItem(USER_KEY);
+    const raw = localStorage.getItem(LEADRIFT_USER_KEY);
     return raw ? JSON.parse(raw) : null;
   } catch {
     return null;
@@ -23,7 +24,7 @@ function readStoredUser() {
 }
 
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(() => localStorage.getItem(TOKEN_KEY));
+  const [token, setToken] = useState(() => localStorage.getItem(LEADRIFT_TOKEN_KEY));
   const [user, setUser] = useState(readStoredUser);
 
   useEffect(() => {
@@ -36,10 +37,10 @@ export function AuthProvider({ children }) {
   }, []);
 
   const persistSession = useCallback((nextToken, nextUser) => {
-    if (nextToken) localStorage.setItem(TOKEN_KEY, nextToken);
-    else localStorage.removeItem(TOKEN_KEY);
-    if (nextUser) localStorage.setItem(USER_KEY, JSON.stringify(nextUser));
-    else localStorage.removeItem(USER_KEY);
+    if (nextToken) localStorage.setItem(LEADRIFT_TOKEN_KEY, nextToken);
+    else localStorage.removeItem(LEADRIFT_TOKEN_KEY);
+    if (nextUser) localStorage.setItem(LEADRIFT_USER_KEY, JSON.stringify(nextUser));
+    else localStorage.removeItem(LEADRIFT_USER_KEY);
     setToken(nextToken);
     setUser(nextUser);
   }, []);
