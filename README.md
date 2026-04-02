@@ -104,3 +104,6 @@ In Vite dev, the UI talks to the API through the **proxy** (`/api` → port 5000
 ---
 
 Originally developed during an internship at Future Interns to practice full-stack CRM workflows (auth, CRUD, realtime updates, and analytics-style views).
+
+**Acknowledgment:** This project was built with assistance from **Cursor** (AI-assisted IDE).  
+**Serge Ishimwe** — full-stack developer, Rwanda.
