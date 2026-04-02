@@ -55,7 +55,7 @@ FUTURE_FS_02/
 
 | Variable | Purpose |
 |----------|---------|
-| `VITE_API_URL` | API **origin only** (no `/api` suffix), default `http://localhost:5000` |
+| `VITE_API_URL` | API **origin only** (no `/api` suffix). **Leave unset in Vite dev** to use the proxy at `/api`. Set for production builds or if you bypass the proxy. |
 
 ## Run locally
 
@@ -82,11 +82,15 @@ FUTURE_FS_02/
    npm run dev
    ```
 
-5. Open **http://localhost:5173** — register or log in, then use Dashboard, Kanban, and lead detail.
+   **Or** from the **repo root** (after `npm install` there once): `npm run dev` — starts **both** the API and the Vite app.
+
+5. Open the **Leadrift UI** at **http://localhost:5173** (Vite). The dev server may open your browser automatically.
+
+   **Important:** Port **5000** is the **API only** (JSON). It does **not** serve the React app, so opening only `http://localhost:5000` will not show the CRM screens.
 
 6. Health check: **http://localhost:5000/api/health**
 
-The UI calls **`http://localhost:5000/api`** by default and opens Socket.io on the same host; keep the API running on the port set in `PORT`.
+In Vite dev, the UI talks to the API through the **proxy** (`/api` → port 5000). Keep the API running on the port set in `PORT`.
 
 ## Scripts
 

@@ -4,6 +4,34 @@ import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext.jsx";
 import Page from "../components/Page.jsx";
 
+function getAuthSubmitErrorMessage(err) {
+  const data = err.response?.data;
+  if (data && typeof data.message === "string" && data.message.trim()) {
+    return data.message;
+  }
+  if (data && typeof data === "object" && data !== null) {
+    const alt = data.error ?? data.msg;
+    if (typeof alt === "string" && alt.trim()) return alt;
+  }
+  if (typeof data === "string" && data.trim().startsWith("<")) {
+    return "Got HTML instead of JSON — check API URL / Vite proxy.";
+  }
+  if (!err.response) {
+    if (err.code === "ERR_NETWORK" || err.message === "Network Error") {
+      return "Cannot reach the API. Start the server (port 5000), or set VITE_API_URL if the API is elsewhere.";
+    }
+    return err.message?.trim() || "Request failed before a response was received.";
+  }
+  const status = err.response.status;
+  if (status === 502 || status === 503 || status === 504) {
+    return "API is unreachable (bad gateway). Fix MongoDB connection in the server terminal, then restart the API.";
+  }
+  if (status === 404) {
+    return "API route not found (404). Check that the backend is running and paths use /api.";
+  }
+  return "Something went wrong";
+}
+
 export default function LoginPage() {
   const { isAuthenticated, login, register } = useAuth();
   const navigate = useNavigate();
@@ -37,7 +65,7 @@ export default function LoginPage() {
       }
       navigate("/dashboard", { replace: true });
     } catch (err) {
-      const msg = err.response?.data?.message || "Something went wrong";
+      const msg = getAuthSubmitErrorMessage(err);
       toast.error(msg);
     } finally {
       setBusy(false);

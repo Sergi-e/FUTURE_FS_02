@@ -12,7 +12,7 @@ function signToken(userId) {
 
 export async function register(req, res) {
   try {
-    if (!process.env.JWT_SECRET) {
+    if (!process.env.JWT_SECRET?.trim()) {
       return res.status(500).json({ message: "Server missing JWT_SECRET" });
     }
     const { name, email, password } = req.body;
@@ -49,13 +49,16 @@ export async function register(req, res) {
     });
   } catch (err) {
     console.error("register:", err);
-    res.status(500).json({ message: "Could not create account" });
+    const dup = err.code === 11000 || err.code === "E11000";
+    res.status(500).json({
+      message: dup ? "That email is already registered" : "Could not create account",
+    });
   }
 }
 
 export async function login(req, res) {
   try {
-    if (!process.env.JWT_SECRET) {
+    if (!process.env.JWT_SECRET?.trim()) {
       return res.status(500).json({ message: "Server missing JWT_SECRET" });
     }
 
