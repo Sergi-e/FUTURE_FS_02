@@ -3,6 +3,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext.jsx";
 import Page from "../components/Page.jsx";
+import "./LoginPage.css";
 
 function getAuthSubmitErrorMessage(err) {
   const data = err.response?.data;
@@ -79,23 +80,21 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#06060a] p-6 text-white">
+    <div className="login-page relative flex min-h-screen items-center justify-center overflow-hidden p-6">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_120%_80%_at_50%_-20%,rgba(124,58,237,0.22),transparent)]" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_100%_50%,rgba(6,182,212,0.1),transparent)]" />
       <Page className="relative w-full max-w-md">
-        <div className="rounded-2xl border border-white/20 bg-white/10 p-8 shadow-2xl backdrop-blur-md">
-          <h1 className="text-center text-2xl font-semibold">Leadrift</h1>
-          <p className="mt-1 text-center text-sm text-white/55">
+        <div className="login-card rounded-2xl p-8 backdrop-blur-md">
+          <h1 className="login-title text-center text-2xl font-semibold">Leadrift</h1>
+          <p className="login-subtitle mt-1 text-center text-sm">
             {mode === "login" ? "Sign in to your workspace" : "Create an account"}
           </p>
 
-          <div className="mt-6 flex rounded-lg bg-black/30 p-1">
+          <div className="mt-6 flex rounded-lg p-1">
             <button
               type="button"
-              className={`flex-1 rounded-md py-2 text-sm font-medium transition ${
-                mode === "login"
-                  ? "bg-white/10 text-white shadow"
-                  : "text-white/55"
+              className={`login-tab flex-1 rounded-t-md py-2 text-sm font-medium transition ${
+                mode === "login" ? "active" : ""
               }`}
               onClick={() => setMode("login")}
             >
@@ -103,10 +102,8 @@ export default function LoginPage() {
             </button>
             <button
               type="button"
-              className={`flex-1 rounded-md py-2 text-sm font-medium transition ${
-                mode === "register"
-                  ? "bg-white/10 text-white shadow"
-                  : "text-white/55"
+              className={`login-tab flex-1 rounded-t-md py-2 text-sm font-medium transition ${
+                mode === "register" ? "active" : ""
               }`}
               onClick={() => setMode("register")}
             >
@@ -116,34 +113,34 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             {mode === "register" ? (
-              <label className="block text-xs font-medium text-white/65">
+              <label className="login-label block text-xs font-medium">
                 Name
                 <input
                   required
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2.5 text-sm text-white outline-none ring-2 ring-transparent transition placeholder:text-white/30 focus:ring-brand-violet/50"
+                  className="login-input mt-1 w-full rounded-lg px-3 py-2.5 text-sm transition"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
               </label>
             ) : null}
-            <label className="block text-xs font-medium text-white/65">
+            <label className="login-label block text-xs font-medium">
               Email
               <input
                 required
                 type="email"
                 autoComplete="email"
-                className="mt-1 w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2.5 text-sm text-white outline-none ring-2 ring-transparent transition focus:ring-brand-violet/50"
+                className="login-input mt-1 w-full rounded-lg px-3 py-2.5 text-sm transition"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </label>
-            <label className="block text-xs font-medium text-white/65">
+            <label className="login-label block text-xs font-medium">
               Password
               <input
                 required
                 type="password"
                 autoComplete={mode === "login" ? "current-password" : "new-password"}
-                className="mt-1 w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2.5 text-sm text-white outline-none ring-2 ring-transparent transition focus:ring-brand-violet/50"
+                className="login-input mt-1 w-full rounded-lg px-3 py-2.5 text-sm transition"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -151,13 +148,13 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={busy}
-              className="w-full rounded-lg bg-brand-violet py-2.5 text-sm font-semibold text-white shadow-neon transition hover:bg-violet-600 disabled:opacity-60 dark:hover:bg-violet-500"
+              className="login-button w-full rounded-lg py-2.5 text-sm font-semibold transition disabled:opacity-60"
             >
               {busy ? "Please wait…" : mode === "login" ? "Sign in" : "Create account"}
             </button>
           </form>
 
-          <p className="mt-6 text-center text-xs text-white/45">
+          <p className="login-footer-text mt-6 text-center text-xs">
             By continuing you agree to your organization&apos;s terms and acceptable use policy.
           </p>
         </div>
