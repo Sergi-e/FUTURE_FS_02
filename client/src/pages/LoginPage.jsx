@@ -29,6 +29,12 @@ function getAuthSubmitErrorMessage(err) {
   if (status === 404) {
     return "API route not found (404). Check that the backend is running and paths use /api.";
   }
+  if (status >= 500) {
+    return "Server error — is the API running and MongoDB connected? Check the terminal running the server.";
+  }
+  if (status >= 400) {
+    return `Request failed (${status}). If you are on a deployed site, set VITE_API_URL to your API origin when building the client.`;
+  }
   return "Something went wrong";
 }
 
