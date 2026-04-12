@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage.jsx";
 import DashboardPage from "./pages/DashboardPage.jsx";
 import KanbanPage from "./pages/KanbanPage.jsx";
 import LeadDetailPage from "./pages/LeadDetailPage.jsx";
+import SettingsPage from "./pages/SettingsPage.jsx";
 
 function HomeRedirect() {
   const { isAuthenticated } = useAuth();
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/kanban" element={<KanbanPage />} />
         <Route path="/leads/:id" element={<LeadDetailPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
       </Route>
 
       <Route path="/" element={<HomeRedirect />} />

@@ -92,6 +92,8 @@ FUTURE_FS_02/
 
 In Vite dev, the UI talks to the API through the **proxy** (`/api` → port 5000). Keep the API running on the port set in `PORT`.
 
+After you sign in, open **Settings** in the nav to **change your password** (requires your current password).
+
 ## Scripts
 
 | Location | Command | Purpose |

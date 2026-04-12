@@ -37,6 +37,12 @@ export default function Navbar() {
             >
               Kanban
             </NavLink>
+            <NavLink
+              to="/settings"
+              className={({ isActive }) => `${linkClass} ${isActive ? activeClass : ""}`}
+            >
+              Settings
+            </NavLink>
           </nav>
         </div>
 

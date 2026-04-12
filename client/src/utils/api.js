@@ -22,7 +22,11 @@ api.interceptors.request.use((config) => {
 function isAuthPath(url) {
   if (!url) return false;
   const u = String(url);
-  return u.includes("auth/login") || u.includes("auth/register");
+  return (
+    u.includes("auth/login") ||
+    u.includes("auth/register") ||
+    u.includes("auth/change-password")
+  );
 }
 
 api.interceptors.response.use(

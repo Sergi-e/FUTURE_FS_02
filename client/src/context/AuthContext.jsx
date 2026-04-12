@@ -85,6 +85,10 @@ export function AuthProvider({ children }) {
     persistSession(null, null);
   }, [persistSession]);
 
+  const changePassword = useCallback(async (currentPassword, newPassword) => {
+    await api.post("/auth/change-password", { currentPassword, newPassword });
+  }, []);
+
   const value = useMemo(
     () => ({
       token,
@@ -93,8 +97,9 @@ export function AuthProvider({ children }) {
       login,
       register,
       logout,
+      changePassword,
     }),
-    [token, user, login, register, logout]
+    [token, user, login, register, logout, changePassword]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
