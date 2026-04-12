@@ -3,7 +3,6 @@ import { Navigate, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext.jsx";
 import Page from "../components/Page.jsx";
-import "./LoginPage.css";
 
 function getAuthSubmitErrorMessage(err) {
   const data = err.response?.data;
@@ -79,32 +78,36 @@ export default function LoginPage() {
     }
   }
 
+  const tabBase = "flex-1 rounded-md py-2 text-sm font-medium transition";
+  const tabInactive =
+    "text-slate-600 hover:bg-slate-200/80 hover:text-slate-900 dark:text-white/70 dark:hover:bg-white/10 dark:hover:text-white";
+  const tabActive =
+    "bg-brand-violet/15 text-brand-violet dark:bg-brand-violet/20 dark:text-violet-200 shadow-sm dark:shadow-none";
+
   return (
-    <div className="login-page relative flex min-h-screen items-center justify-center overflow-hidden p-6">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_120%_80%_at_50%_-20%,rgba(124,58,237,0.22),transparent)]" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_100%_50%,rgba(6,182,212,0.1),transparent)]" />
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-100 p-6 text-slate-900 dark:bg-surface-deep dark:text-white">
+      <div className="pointer-events-none absolute inset-0 hidden dark:block dark:bg-[radial-gradient(ellipse_120%_80%_at_50%_-20%,rgba(124,58,237,0.12),transparent)]" />
+      <div className="pointer-events-none absolute inset-0 hidden dark:block dark:bg-[radial-gradient(ellipse_80%_50%_at_100%_50%,rgba(6,182,212,0.08),transparent)]" />
       <Page className="relative w-full max-w-md">
-        <div className="login-card rounded-2xl p-8 backdrop-blur-md">
-          <h1 className="login-title text-center text-2xl font-semibold">Leadrift</h1>
-          <p className="login-subtitle mt-1 text-center text-sm">
+        <div className="glass-card p-8">
+          <h1 className="text-center text-2xl font-semibold text-slate-900 dark:text-white">
+            Leadrift
+          </h1>
+          <p className="mt-1 text-center text-sm text-slate-500 dark:text-white/50">
             {mode === "login" ? "Sign in to your workspace" : "Create an account"}
           </p>
 
-          <div className="mt-6 flex rounded-lg p-1">
+          <div className="mt-6 flex rounded-lg border border-slate-200/60 bg-white/50 p-1 dark:border-white/10 dark:bg-black/20">
             <button
               type="button"
-              className={`login-tab flex-1 rounded-t-md py-2 text-sm font-medium transition ${
-                mode === "login" ? "active" : ""
-              }`}
+              className={`${tabBase} ${mode === "login" ? tabActive : tabInactive}`}
               onClick={() => setMode("login")}
             >
               Login
             </button>
             <button
               type="button"
-              className={`login-tab flex-1 rounded-t-md py-2 text-sm font-medium transition ${
-                mode === "register" ? "active" : ""
-              }`}
+              className={`${tabBase} ${mode === "register" ? tabActive : tabInactive}`}
               onClick={() => setMode("register")}
             >
               Register
@@ -113,34 +116,34 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             {mode === "register" ? (
-              <label className="login-label block text-xs font-medium">
+              <label className="block text-xs font-medium text-slate-600 dark:text-white/60">
                 Name
                 <input
                   required
-                  className="login-input mt-1 w-full rounded-lg px-3 py-2.5 text-sm transition"
+                  className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:ring-2 focus:ring-brand-cyan/60 dark:border-white/15 dark:bg-white/5 dark:text-white"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
               </label>
             ) : null}
-            <label className="login-label block text-xs font-medium">
+            <label className="block text-xs font-medium text-slate-600 dark:text-white/60">
               Email
               <input
                 required
                 type="email"
                 autoComplete="email"
-                className="login-input mt-1 w-full rounded-lg px-3 py-2.5 text-sm transition"
+                className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:ring-2 focus:ring-brand-cyan/60 dark:border-white/15 dark:bg-white/5 dark:text-white"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </label>
-            <label className="login-label block text-xs font-medium">
+            <label className="block text-xs font-medium text-slate-600 dark:text-white/60">
               Password
               <input
                 required
                 type="password"
                 autoComplete={mode === "login" ? "current-password" : "new-password"}
-                className="login-input mt-1 w-full rounded-lg px-3 py-2.5 text-sm transition"
+                className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2.5 text-sm text-slate-900 outline-none transition focus:ring-2 focus:ring-brand-cyan/60 dark:border-white/15 dark:bg-white/5 dark:text-white"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -148,13 +151,13 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={busy}
-              className="login-button w-full rounded-lg py-2.5 text-sm font-semibold transition disabled:opacity-60"
+              className="w-full rounded-lg bg-brand-violet py-2.5 text-sm font-semibold text-white shadow-neon transition hover:bg-violet-600 disabled:opacity-60 dark:hover:bg-violet-500"
             >
               {busy ? "Please wait…" : mode === "login" ? "Sign in" : "Create account"}
             </button>
           </form>
 
-          <p className="login-footer-text mt-6 text-center text-xs">
+          <p className="mt-6 text-center text-xs text-slate-500 dark:text-white/45">
             By continuing you agree to your organization&apos;s terms and acceptable use policy.
           </p>
         </div>
