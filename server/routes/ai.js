@@ -19,7 +19,7 @@ router.post("/chat", requireAuth, async (req, res, next) => {
     // If no OpenAI key is set, return a mock response that's helpful.
     if (!openai) {
       return res.json({
-        reply: "I am your Leadrift AI assistant! Right now I am running in 'demo mode' because the `OPENAI_API_KEY` is not set on the server.\n\nBut I am ready to help you manage your pipeline, find leads, and answer questions as soon as the API key is added!"
+        reply: "I am not yet active! I will be available in a future update to help you manage your pipeline, find leads, and answer your questions."
       });
     }
 
