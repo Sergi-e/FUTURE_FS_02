@@ -86,50 +86,55 @@ export default function AddLeadModal({ open, onClose, onCreated }) {
               </p>
               <form onSubmit={handleSubmit} className="mt-4 space-y-3">
                 <label className="block text-xs font-medium text-slate-600 dark:text-[#E0F7FA]/60">
-                  Name
+                  Full Name
                   <input
                     required
-                    className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2 text-sm text-slate-900 outline-none ring-brand-cyan/0 transition focus:ring-2 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA]"
+                    placeholder="e.g. Jane Doe"
+                    className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2 text-sm text-slate-900 outline-none ring-brand-cyan/0 transition focus:ring-2 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA] placeholder:text-slate-400 dark:placeholder:text-[#80CBC4]/50"
                     value={form.name}
                     onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
                   />
                 </label>
                 <label className="block text-xs font-medium text-slate-600 dark:text-[#E0F7FA]/60">
-                  Email
+                  Email Address
                   <input
                     required
                     type="email"
-                    className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-brand-cyan/60 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA]"
+                    placeholder="jane@example.com"
+                    className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-brand-cyan/60 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA] placeholder:text-slate-400 dark:placeholder:text-[#80CBC4]/50"
                     value={form.email}
                     onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
                   />
                 </label>
                 <label className="block text-xs font-medium text-slate-600 dark:text-[#E0F7FA]/60">
-                  Phone
+                  Phone Number
                   <input
-                    className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-brand-cyan/60 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA]"
+                    placeholder="(555) 123-4567"
+                    className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-brand-cyan/60 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA] placeholder:text-slate-400 dark:placeholder:text-[#80CBC4]/50"
                     value={form.phone}
                     onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
                   />
                 </label>
                 <label className="block text-xs font-medium text-slate-600 dark:text-[#E0F7FA]/60">
-                  Company
+                  Company Name
                   <input
-                    className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-brand-cyan/60 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA]"
+                    placeholder="e.g. Acme Corp"
+                    className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-brand-cyan/60 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA] placeholder:text-slate-400 dark:placeholder:text-[#80CBC4]/50"
                     value={form.company}
                     onChange={(e) => setForm((f) => ({ ...f, company: e.target.value }))}
                   />
                 </label>
                 <label className="block text-xs font-medium text-slate-600 dark:text-[#E0F7FA]/60">
-                  Source
+                  Lead Source
                   <input
-                    className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-brand-cyan/60 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA]"
+                    placeholder="e.g. Website, Referral, Cold Call"
+                    className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-brand-cyan/60 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA] placeholder:text-slate-400 dark:placeholder:text-[#80CBC4]/50"
                     value={form.source}
                     onChange={(e) => setForm((f) => ({ ...f, source: e.target.value }))}
                   />
                 </label>
                 <label className="block text-xs font-medium text-slate-600 dark:text-[#E0F7FA]/60">
-                  Initial status
+                  Pipeline Stage (Initial Status)
                   <select
                     className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-brand-cyan/60 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA]"
                     value={form.status}

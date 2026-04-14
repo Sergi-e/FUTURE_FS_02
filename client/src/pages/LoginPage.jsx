@@ -114,22 +114,24 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             {mode === "register" ? (
               <label className="login-label block text-xs font-medium">
-                Name
+                Full Name
                 <input
                   required
-                  className="login-input mt-1 w-full rounded-lg px-3 py-2.5 text-sm transition"
+                  placeholder="e.g. Jane Doe"
+                  className="login-input mt-1 w-full rounded-lg px-3 py-2.5 text-sm transition placeholder:text-slate-400 dark:placeholder:text-[#80CBC4]/50"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
               </label>
             ) : null}
             <label className="login-label block text-xs font-medium">
-              Email
+              Email Address
               <input
                 required
                 type="email"
                 autoComplete="email"
-                className="login-input mt-1 w-full rounded-lg px-3 py-2.5 text-sm transition"
+                placeholder="you@company.com"
+                className="login-input mt-1 w-full rounded-lg px-3 py-2.5 text-sm transition placeholder:text-slate-400 dark:placeholder:text-[#80CBC4]/50"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -140,7 +142,8 @@ export default function LoginPage() {
                 required
                 type="password"
                 autoComplete={mode === "login" ? "current-password" : "new-password"}
-                className="login-input mt-1 w-full rounded-lg px-3 py-2.5 text-sm transition"
+                placeholder="••••••••"
+                className="login-input mt-1 w-full rounded-lg px-3 py-2.5 text-sm transition placeholder:text-slate-400 dark:placeholder:text-[#80CBC4]/50"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />

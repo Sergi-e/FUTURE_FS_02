@@ -64,7 +64,8 @@ export default function SettingsPage() {
                 required
                 type="password"
                 autoComplete="current-password"
-                className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none ring-2 ring-transparent transition focus:ring-brand-cyan/50 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA]"
+                placeholder="Enter your current password"
+                className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none ring-2 ring-transparent transition focus:ring-brand-cyan/50 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA] placeholder:text-slate-400 dark:placeholder:text-[#80CBC4]/50"
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
               />
@@ -76,7 +77,8 @@ export default function SettingsPage() {
                 type="password"
                 autoComplete="new-password"
                 minLength={6}
-                className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none ring-2 ring-transparent transition focus:ring-brand-cyan/50 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA]"
+                placeholder="At least 6 characters"
+                className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none ring-2 ring-transparent transition focus:ring-brand-cyan/50 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA] placeholder:text-slate-400 dark:placeholder:text-[#80CBC4]/50"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
               />
@@ -88,7 +90,8 @@ export default function SettingsPage() {
                 type="password"
                 autoComplete="new-password"
                 minLength={6}
-                className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none ring-2 ring-transparent transition focus:ring-brand-cyan/50 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA]"
+                placeholder="Type your new password again"
+                className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none ring-2 ring-transparent transition focus:ring-brand-cyan/50 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA] placeholder:text-slate-400 dark:placeholder:text-[#80CBC4]/50"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
