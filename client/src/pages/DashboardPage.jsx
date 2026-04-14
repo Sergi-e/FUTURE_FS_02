@@ -27,22 +27,22 @@ function followUpLabel(iso) {
 
 function DashboardEmptyState() {
   return (
-    <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300/90 bg-gradient-to-b from-white/50 to-slate-100/30 py-16 text-center dark:border-white/15 dark:from-white/5 dark:to-transparent">
+    <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300/90 bg-gradient-to-b from-white/50 to-slate-100/30 py-16 text-center dark:border-[#2E4A5A] dark:from-white/5 dark:to-transparent">
       <div
-        className="mb-5 flex h-28 w-28 items-center justify-center rounded-3xl bg-gradient-to-br from-brand-violet/25 via-white/40 to-brand-cyan/25 text-5xl shadow-inner dark:from-brand-violet/20 dark:via-white/5 dark:to-brand-cyan/15"
+        className="mb-5 flex h-28 w-28 items-center justify-center rounded-3xl bg-gradient-to-br from-brand-cyan/25 via-white/40 to-brand-cyan/25 text-5xl shadow-inner dark:from-brand-cyan/20 dark:via-white/5 dark:to-brand-cyan/15"
         aria-hidden
       >
         📊
       </div>
-      <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
+      <h2 className="text-xl font-semibold text-slate-900 dark:text-[#E0F7FA]">
         Your mission control is quiet
       </h2>
-      <p className="mt-2 max-w-md text-sm text-slate-600 dark:text-white/55">
+      <p className="mt-2 max-w-md text-sm text-slate-600 dark:text-[#E0F7FA]/55">
         No leads yet — add one with{" "}
-        <kbd className="rounded border border-slate-300 bg-white px-1.5 py-0.5 text-xs dark:border-white/20 dark:bg-white/10">
+        <kbd className="rounded border border-slate-300 bg-white px-1.5 py-0.5 text-xs dark:border-[#2E4A5A] dark:bg-[#243B47]">
           Ctrl+K
         </kbd>{" "}
-        or <span className="font-medium text-brand-violet">Add lead</span> in the header. Stats
+        or <span className="font-medium text-brand-cyan">Add lead</span> in the header. Stats
         and charts will light up as soon as data lands.
       </p>
     </div>
@@ -112,8 +112,8 @@ export default function DashboardPage() {
   return (
     <Page className="space-y-8">
       <div className="flex flex-col gap-1">
-        <h1 className="text-2xl font-semibold text-slate-900 dark:text-white">Dashboard</h1>
-        <p className="text-sm text-slate-500 dark:text-white/50">
+        <h1 className="text-2xl font-semibold text-slate-900 dark:text-[#E0F7FA]">Dashboard</h1>
+        <p className="text-sm text-slate-500 dark:text-[#E0F7FA]/50">
           Snapshot of your pipeline — stats and charts update in real time as leads change.
         </p>
       </div>

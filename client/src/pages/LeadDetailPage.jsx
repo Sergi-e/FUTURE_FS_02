@@ -122,7 +122,7 @@ export default function LeadDetailPage() {
   if (loading || !lead) {
     return (
       <Page>
-        <p className="text-sm text-slate-500 dark:text-white/50">Loading lead…</p>
+        <p className="text-sm text-slate-500 dark:text-[#E0F7FA]/50">Loading lead…</p>
       </Page>
     );
   }
@@ -139,10 +139,10 @@ export default function LeadDetailPage() {
           >
             ← Back to board
           </Link>
-          <h1 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
+          <h1 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-[#E0F7FA]">
             {lead.name}
           </h1>
-          <p className="text-sm text-slate-500 dark:text-white/50">{lead.email}</p>
+          <p className="text-sm text-slate-500 dark:text-[#E0F7FA]/50">{lead.email}</p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <ScoreBadge score={score} className="!px-3 !py-1 !text-[11px]" />
@@ -161,13 +161,13 @@ export default function LeadDetailPage() {
           onSubmit={saveDetails}
           className="glass-card space-y-4 p-5 lg:col-span-1"
         >
-          <h2 className="text-sm font-semibold text-slate-900 dark:text-white">Details</h2>
-          <label className="block text-xs font-medium text-slate-600 dark:text-white/55">
+          <h2 className="text-sm font-semibold text-slate-900 dark:text-[#E0F7FA]">Details</h2>
+          <label className="block text-xs font-medium text-slate-600 dark:text-[#E0F7FA]/55">
             Status
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value)}
-              className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/70 px-3 py-2 text-sm dark:border-white/15 dark:bg-white/5 dark:text-white"
+              className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/70 px-3 py-2 text-sm dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA]"
             >
               {STATUSES.map((s) => (
                 <option key={s} value={s}>
@@ -176,16 +176,16 @@ export default function LeadDetailPage() {
               ))}
             </select>
           </label>
-          <label className="block text-xs font-medium text-slate-600 dark:text-white/55">
+          <label className="block text-xs font-medium text-slate-600 dark:text-[#E0F7FA]/55">
             Follow-up
             <input
               type="datetime-local"
               value={followUp}
               onChange={(e) => setFollowUp(e.target.value)}
-              className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/70 px-3 py-2 text-sm dark:border-white/15 dark:bg-white/5 dark:text-white"
+              className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/70 px-3 py-2 text-sm dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA]"
             />
           </label>
-          <div className="text-xs text-slate-500 dark:text-white/45">
+          <div className="text-xs text-slate-500 dark:text-[#E0F7FA]/45">
             <p>Phone: {lead.phone || "—"}</p>
             <p>Company: {lead.company || "—"}</p>
             <p>Source: {lead.source || "—"}</p>
@@ -193,17 +193,17 @@ export default function LeadDetailPage() {
           <button
             type="submit"
             disabled={savingMeta}
-            className="w-full rounded-lg bg-brand-violet py-2 text-sm font-medium text-white shadow-neon disabled:opacity-60"
+            className="w-full rounded-lg bg-brand-cyan py-2 text-sm font-medium text-white shadow-neon disabled:opacity-60"
           >
             {savingMeta ? "Saving…" : "Save changes"}
           </button>
         </form>
 
         <div className="glass-card space-y-4 p-5 lg:col-span-2">
-          <h2 className="text-sm font-semibold text-slate-900 dark:text-white">Notes</h2>
+          <h2 className="text-sm font-semibold text-slate-900 dark:text-[#E0F7FA]">Notes</h2>
           <form onSubmit={addNote} className="flex flex-col gap-2 sm:flex-row">
             <input
-              className="flex-1 rounded-lg border border-slate-300/80 bg-white/70 px-3 py-2 text-sm dark:border-white/15 dark:bg-white/5 dark:text-white"
+              className="flex-1 rounded-lg border border-slate-300/80 bg-white/70 px-3 py-2 text-sm dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA]"
               placeholder="Add a note…"
               value={noteText}
               onChange={(e) => setNoteText(e.target.value)}
@@ -218,7 +218,7 @@ export default function LeadDetailPage() {
           </form>
           <ul className="max-h-[420px] space-y-3 overflow-y-auto pr-1">
             {(lead.notes || []).length === 0 ? (
-              <li className="text-sm text-slate-500 dark:text-white/45">No notes yet.</li>
+              <li className="text-sm text-slate-500 dark:text-[#E0F7FA]/45">No notes yet.</li>
             ) : (
               [...(lead.notes || [])]
                 .slice()
@@ -226,10 +226,10 @@ export default function LeadDetailPage() {
                 .map((n) => (
                   <li
                     key={n._id || `${n.text}-${n.createdAt}`}
-                    className="rounded-lg border border-slate-200/70 bg-white/50 p-3 text-sm dark:border-white/10 dark:bg-white/5"
+                    className="rounded-lg border border-slate-200/70 bg-white/50 p-3 text-sm dark:border-[#2E4A5A] dark:bg-[#243B47]"
                   >
-                    <p className="text-slate-800 dark:text-white/90">{n.text}</p>
-                    <p className="mt-1 text-[11px] text-slate-400 dark:text-white/40">
+                    <p className="text-slate-800 dark:text-[#E0F7FA]/90">{n.text}</p>
+                    <p className="mt-1 text-[11px] text-slate-400 dark:text-[#E0F7FA]/40">
                       {n.createdAt ? new Date(n.createdAt).toLocaleString() : ""}
                       {n.author?.name ? ` · ${n.author.name}` : ""}
                     </p>

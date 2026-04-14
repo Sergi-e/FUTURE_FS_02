@@ -71,67 +71,67 @@ export default function AddLeadModal({ open, onClose, onCreated }) {
               role="dialog"
               aria-modal="true"
               aria-labelledby="add-lead-title"
-              className="pointer-events-auto w-full max-w-[420px] max-h-[min(90vh,100dvh)] overflow-y-auto overscroll-contain rounded-2xl border border-slate-200/80 bg-white/90 p-6 shadow-2xl backdrop-blur-xl dark:border-white/20 dark:bg-surface-deep/95"
+              className="pointer-events-auto w-full max-w-[420px] max-h-[min(90vh,100dvh)] overflow-y-auto overscroll-contain rounded-2xl border border-slate-200/80 bg-white/90 p-6 shadow-2xl backdrop-blur-xl dark:border-[#2E4A5A] dark:bg-[#1A2F3A]/95"
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.96 }}
               transition={{ type: "spring", stiffness: 380, damping: 28 }}
             >
-              <h2 id="add-lead-title" className="text-lg font-semibold text-slate-900 dark:text-white">
+              <h2 id="add-lead-title" className="text-lg font-semibold text-slate-900 dark:text-[#E0F7FA]">
                 New lead
               </h2>
-              <p className="mt-1 text-xs text-slate-500 dark:text-white/50">
+              <p className="mt-1 text-xs text-slate-500 dark:text-[#E0F7FA]/50">
                 Add contact details and pipeline stage. Required fields match what your team saves to the
                 workspace.
               </p>
               <form onSubmit={handleSubmit} className="mt-4 space-y-3">
-                <label className="block text-xs font-medium text-slate-600 dark:text-white/60">
+                <label className="block text-xs font-medium text-slate-600 dark:text-[#E0F7FA]/60">
                   Name
                   <input
                     required
-                    className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2 text-sm text-slate-900 outline-none ring-brand-violet/0 transition focus:ring-2 dark:border-white/15 dark:bg-white/5 dark:text-white"
+                    className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2 text-sm text-slate-900 outline-none ring-brand-cyan/0 transition focus:ring-2 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA]"
                     value={form.name}
                     onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
                   />
                 </label>
-                <label className="block text-xs font-medium text-slate-600 dark:text-white/60">
+                <label className="block text-xs font-medium text-slate-600 dark:text-[#E0F7FA]/60">
                   Email
                   <input
                     required
                     type="email"
-                    className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-brand-violet/60 dark:border-white/15 dark:bg-white/5 dark:text-white"
+                    className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-brand-cyan/60 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA]"
                     value={form.email}
                     onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
                   />
                 </label>
-                <label className="block text-xs font-medium text-slate-600 dark:text-white/60">
+                <label className="block text-xs font-medium text-slate-600 dark:text-[#E0F7FA]/60">
                   Phone
                   <input
-                    className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-brand-violet/60 dark:border-white/15 dark:bg-white/5 dark:text-white"
+                    className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-brand-cyan/60 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA]"
                     value={form.phone}
                     onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
                   />
                 </label>
-                <label className="block text-xs font-medium text-slate-600 dark:text-white/60">
+                <label className="block text-xs font-medium text-slate-600 dark:text-[#E0F7FA]/60">
                   Company
                   <input
-                    className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-brand-violet/60 dark:border-white/15 dark:bg-white/5 dark:text-white"
+                    className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-brand-cyan/60 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA]"
                     value={form.company}
                     onChange={(e) => setForm((f) => ({ ...f, company: e.target.value }))}
                   />
                 </label>
-                <label className="block text-xs font-medium text-slate-600 dark:text-white/60">
+                <label className="block text-xs font-medium text-slate-600 dark:text-[#E0F7FA]/60">
                   Source
                   <input
-                    className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-brand-violet/60 dark:border-white/15 dark:bg-white/5 dark:text-white"
+                    className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-brand-cyan/60 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA]"
                     value={form.source}
                     onChange={(e) => setForm((f) => ({ ...f, source: e.target.value }))}
                   />
                 </label>
-                <label className="block text-xs font-medium text-slate-600 dark:text-white/60">
+                <label className="block text-xs font-medium text-slate-600 dark:text-[#E0F7FA]/60">
                   Initial status
                   <select
-                    className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-brand-violet/60 dark:border-white/15 dark:bg-white/5 dark:text-white"
+                    className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-brand-cyan/60 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA]"
                     value={form.status}
                     onChange={(e) => setForm((f) => ({ ...f, status: e.target.value }))}
                   >
@@ -146,14 +146,14 @@ export default function AddLeadModal({ open, onClose, onCreated }) {
                   <button
                     type="button"
                     onClick={onClose}
-                    className="rounded-lg px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 dark:text-white/70 dark:hover:bg-white/10"
+                    className="rounded-lg px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 dark:text-[#E0F7FA]/70 dark:hover:bg-white/10"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={saving}
-                    className="rounded-lg bg-brand-violet px-4 py-2 text-sm font-medium text-white shadow-neon disabled:opacity-60"
+                    className="rounded-lg bg-brand-cyan px-4 py-2 text-sm font-medium text-white shadow-neon disabled:opacity-60"
                   >
                     {saving ? "Saving…" : "Create lead"}
                   </button>

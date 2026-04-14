@@ -52,22 +52,22 @@ export default function ActivityFeed() {
 
   return (
     <aside
-      className="hidden w-[300px] shrink-0 border-l border-slate-200/60 bg-white/30 backdrop-blur-md dark:border-white/10 dark:bg-black/20 lg:flex lg:flex-col"
+      className="hidden w-[300px] shrink-0 border-l border-slate-200/60 bg-white/30 backdrop-blur-md dark:border-[#2E4A5A] dark:bg-[#243B47] lg:flex lg:flex-col"
       aria-label="Live activity"
     >
-      <div className="border-b border-slate-200/60 px-4 py-3 dark:border-white/10">
-        <h2 className="text-sm font-semibold text-slate-900 dark:text-white">
+      <div className="border-b border-slate-200/60 px-4 py-3 dark:border-[#2E4A5A]">
+        <h2 className="text-sm font-semibold text-slate-900 dark:text-[#E0F7FA]">
           Live activity
         </h2>
-        <p className="text-xs text-slate-500 dark:text-white/50">
+        <p className="text-xs text-slate-500 dark:text-[#E0F7FA]/50">
           Live updates as leads and notes change
         </p>
       </div>
       <div className="flex-1 space-y-2 overflow-y-auto p-3">
         {loading ? (
-          <p className="text-xs text-slate-500 dark:text-white/45">Loading…</p>
+          <p className="text-xs text-slate-500 dark:text-[#E0F7FA]/45">Loading…</p>
         ) : items.length === 0 ? (
-          <p className="text-xs text-slate-500 dark:text-white/45">
+          <p className="text-xs text-slate-500 dark:text-[#E0F7FA]/45">
             No events yet — create a lead or log an activity.
           </p>
         ) : (
@@ -79,17 +79,17 @@ export default function ActivityFeed() {
                 initial={{ opacity: 0, x: 8 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0 }}
-                className="rounded-lg border border-slate-200/70 bg-white/60 p-2.5 text-xs shadow-sm dark:border-white/10 dark:bg-white/5"
+                className="rounded-lg border border-slate-200/70 bg-white/60 p-2.5 text-xs shadow-sm dark:border-[#2E4A5A] dark:bg-[#243B47]"
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="font-semibold text-brand-violet dark:text-violet-300">
+                  <span className="font-semibold text-brand-cyan dark:text-violet-300">
                     {a.type}
                   </span>
-                  <span className="shrink-0 text-[10px] text-slate-400 dark:text-white/40">
+                  <span className="shrink-0 text-[10px] text-slate-400 dark:text-[#E0F7FA]/40">
                     {formatTime(a.createdAt)}
                   </span>
                 </div>
-                <p className="mt-1 text-slate-700 dark:text-white/80">{a.message}</p>
+                <p className="mt-1 text-slate-700 dark:text-[#E0F7FA]/80">{a.message}</p>
               </motion.div>
             ))}
           </AnimatePresence>

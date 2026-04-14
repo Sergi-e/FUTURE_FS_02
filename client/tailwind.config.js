@@ -30,7 +30,7 @@ export default {
       },
       boxShadow: {
         glass: "0 8px 32px rgba(0, 0, 0, 0.4)",
-        neon: "0 0 24px rgba(124, 58, 237, 0.35), 0 0 48px rgba(6, 182, 212, 0.12)",
+        neon: "0 0 24px rgba(6, 182, 212, 0.35), 0 0 48px rgba(6, 182, 212, 0.12)",
       },
       backdropBlur: {
         panel: "16px",

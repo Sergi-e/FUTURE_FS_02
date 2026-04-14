@@ -107,7 +107,7 @@ export default function AnalyticsChart() {
 
   if (loading) {
     return (
-      <div className="glass-card p-8 text-center text-sm text-slate-500 dark:text-white/45">
+      <div className="glass-card p-8 text-center text-sm text-slate-500 dark:text-[#E0F7FA]/45">
         Loading analytics…
       </div>
     );
@@ -121,10 +121,10 @@ export default function AnalyticsChart() {
         transition={{ duration: 0.28 }}
         className="glass-card p-5"
       >
-        <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
+        <h3 className="text-sm font-semibold text-slate-900 dark:text-[#E0F7FA]">
           Weekly lead growth
         </h3>
-        <p className="text-xs text-slate-500 dark:text-white/50">
+        <p className="text-xs text-slate-500 dark:text-[#E0F7FA]/50">
           New leads captured each week — trend at a glance
         </p>
         <div className="mt-4 h-64 w-full">
@@ -138,12 +138,12 @@ export default function AnalyticsChart() {
               <XAxis
                 dataKey="label"
                 tick={{ fontSize: 11, fill: "currentColor" }}
-                className="text-slate-500 dark:text-white/45"
+                className="text-slate-500 dark:text-[#E0F7FA]/45"
               />
               <YAxis
                 allowDecimals={false}
                 tick={{ fontSize: 11, fill: "currentColor" }}
-                className="text-slate-500 dark:text-white/45"
+                className="text-slate-500 dark:text-[#E0F7FA]/45"
               />
               <Tooltip {...chartTooltip} />
               <Line
@@ -167,15 +167,15 @@ export default function AnalyticsChart() {
           transition={{ duration: 0.28, delay: 0.05 }}
           className="glass-card p-5"
         >
-          <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
+          <h3 className="text-sm font-semibold text-slate-900 dark:text-[#E0F7FA]">
             Leads by source
           </h3>
-          <p className="text-xs text-slate-500 dark:text-white/50">
+          <p className="text-xs text-slate-500 dark:text-[#E0F7FA]/50">
             Pie chart — grouped from live lead records
           </p>
           <div className="mt-4 h-64 w-full">
             {pieData.length === 0 ? (
-              <p className="flex h-full items-center justify-center text-xs text-slate-500 dark:text-white/40">
+              <p className="flex h-full items-center justify-center text-xs text-slate-500 dark:text-[#E0F7FA]/40">
                 No source data yet
               </p>
             ) : (
@@ -212,10 +212,10 @@ export default function AnalyticsChart() {
           transition={{ duration: 0.28, delay: 0.1 }}
           className="glass-card p-5"
         >
-          <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
+          <h3 className="text-sm font-semibold text-slate-900 dark:text-[#E0F7FA]">
             Conversion funnel
           </h3>
-          <p className="text-xs text-slate-500 dark:text-white/50">
+          <p className="text-xs text-slate-500 dark:text-[#E0F7FA]/50">
             Bar chart — counts at each pipeline stage
           </p>
           <div className="mt-4 h-64 w-full">
@@ -243,7 +243,7 @@ export default function AnalyticsChart() {
                   dataKey="stage"
                   width={92}
                   tick={{ fontSize: 11 }}
-                  className="text-slate-600 dark:text-white/60"
+                  className="text-slate-600 dark:text-[#E0F7FA]/60"
                 />
                 <Tooltip {...chartTooltip} />
                 <Bar
