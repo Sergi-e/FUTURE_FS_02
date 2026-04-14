@@ -2,60 +2,31 @@
 
 **Leadrift CRM** is a full-stack lead-management app for the Future Interns **Full Stack Web Development** track. Repository name on GitHub: **`FUTURE_FS_02`**.
 
+## Features
+
+- **Authentication:** Secure login and registration with JWT and password hashing.
+- **Ocean Dark Theme:** A beautiful, responsive UI built with Tailwind CSS featuring glass-morphism cards, cyan neon accents, and a deep ocean gradient background.
+- **Dashboard Analytics:** Live charts (powered by Recharts) showing weekly lead growth, leads by source (pie chart), and conversion funnel (bar chart).
+- **Pipeline (Kanban):** A drag-and-drop board to visually move leads through stages (New, Contacted, Qualified, Converted, Lost).
+- **AI Assistant:** A floating, context-aware AI chat widget built using the OpenAI API. (Currently in demo mode until an API key is provided).
+- **Real-time Updates:** Activity feeds and lead statuses update instantly across all connected clients via Socket.io.
+- **User-Friendly UX:** Clear form labels, helpful placeholders, and show/hide password toggles.
+
 ## Tech stack
 
 | Layer | Technologies |
 |--------|----------------|
 | **Frontend** | React 18, Vite, React Router, Tailwind CSS, Framer Motion, Recharts, @dnd-kit, react-hot-toast, Axios, Socket.io client |
-| **Backend** | Node.js, Express.js, JWT (jsonwebtoken), bcryptjs |
+| **Backend** | Node.js, Express.js, JWT (jsonwebtoken), bcryptjs, OpenAI |
 | **Database** | MongoDB with Mongoose |
 | **Realtime** | Socket.io (lead + activity broadcasts) |
 
-## GitHub
+## Deployment
 
-- **Repository name:** `FUTURE_FS_02` — push this project to a public GitHub repo with that name (or your course’s required naming) for submission.
-
-## Project layout
-
-```
-FUTURE_FS_02/
-├── client/          # Vite + React UI
-├── server/          # Express API + Socket.io
-├── .env             # Local secrets (gitignored)
-├── .env.example     # Template for root env
-└── client/.env.example   # Optional VITE_API_URL
-```
-
-## Prerequisites
-
-- **Node.js** 18+
-- **MongoDB** — local install or **MongoDB Atlas** (free tier)
-
-## MongoDB Atlas (free) — get a connection URI
-
-1. Sign up at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
-2. Create a **free M0 cluster** and a **database user** (save the password).
-3. Under **Network Access**, allow your IP or `0.0.0.0/0` for development.
-4. **Connect** → **Drivers** → copy the **connection string** (`mongodb+srv://...`).
-5. Replace `<password>` with your user password (URL-encode special characters if needed).
-6. Add a database name, e.g. `...mongodb.net/leadrift?retryWrites=true&w=majority`.
-
-## Environment variables
-
-**Root `.env`** (copy from `.env.example`):
-
-| Variable | Purpose |
-|----------|---------|
-| `MONGO_URI` | MongoDB connection string (Atlas `mongodb+srv://` or local `mongodb://127.0.0.1:27017/leadrift`) |
-| `JWT_SECRET` | Long random string for signing JWTs |
-| `PORT` | API port (default `5000`) |
-| `CLIENT_ORIGIN` | Frontend origin for CORS + Socket.io (e.g. `http://localhost:5173`) |
-
-**Optional `client/.env`:**
-
-| Variable | Purpose |
-|----------|---------|
-| `VITE_API_URL` | API **origin only** (no `/api` suffix). **Leave unset in Vite dev** to use the proxy at `/api`. Set for production builds or if you bypass the proxy. |
+This app is fully deployed on the cloud:
+- **Frontend:** Hosted on [Vercel](https://vercel.com/)
+- **Backend:** Hosted on [Render](https://render.com/)
+- **Database:** Hosted on [MongoDB Atlas](https://www.mongodb.com/atlas/database)
 
 ## Run locally
 
@@ -66,7 +37,15 @@ FUTURE_FS_02/
    cd ../client && npm install
    ```
 
-2. **Configure `.env`** at the repo root with `MONGO_URI`, `JWT_SECRET`, `PORT`, and `CLIENT_ORIGIN`.
+2. **Configure `.env`** at the repo root:
+
+   ```env
+   MONGO_URI=mongodb://127.0.0.1:27017/leadrift
+   JWT_SECRET=your_super_secret_key
+   PORT=5000
+   CLIENT_ORIGIN=http://localhost:5173
+   OPENAI_API_KEY=your_openai_key # Optional for AI Assistant
+   ```
 
 3. **Start the API** (terminal 1)
 
@@ -84,15 +63,7 @@ FUTURE_FS_02/
 
    **Or** from the **repo root** (after `npm install` there once): `npm run dev` — starts **both** the API and the Vite app.
 
-5. Open the **Leadrift UI** at **http://localhost:5173** (Vite). The dev server may open your browser automatically.
-
-   **Important:** Port **5000** is the **API only** (JSON). It does **not** serve the React app, so opening only `http://localhost:5000` will not show the CRM screens.
-
-6. Health check: **http://localhost:5000/api/health**
-
-In Vite dev, the UI talks to the API through the **proxy** (`/api` → port 5000). Keep the API running on the port set in `PORT`.
-
-After you sign in, open **Settings** in the nav to **change your password** (requires your current password).
+5. Open the **Leadrift UI** at **http://localhost:5173**.
 
 ## Scripts
 
