@@ -171,6 +171,9 @@ export default function LoginPage() {
           <p className="login-footer-text mt-6 text-center text-xs">
             By continuing you agree to your organization&apos;s terms and acceptable use policy.
           </p>
+          <p className="mt-4 text-center text-xs text-slate-400 dark:text-[#80CBC4]/50">
+            &copy; {new Date().getFullYear()} Leadrift. All rights reserved.
+          </p>
         </div>
       </Page>
     </div>
