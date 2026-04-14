@@ -9,6 +9,7 @@ import authRoutes from "./routes/auth.js";
 import leadRoutes from "./routes/leads.js";
 import activityRoutes from "./routes/activities.js";
 import analyticsRoutes from "./routes/analytics.js";
+import aiRoutes from "./routes/ai.js";
 
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
@@ -75,6 +76,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/leads", leadRoutes);
 app.use("/api/activities", activityRoutes);
 app.use("/api/analytics", analyticsRoutes);
+app.use("/api/ai", aiRoutes);
 
 // Catches errors passed via `next(err)` (e.g. from CORS or auth middleware)
 app.use((err, _req, res, _next) => {

@@ -2,6 +2,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useHasSession } from "../hooks/useHasSession.js";
 import Navbar from "./Navbar.jsx";
 import ActivityFeed from "./ActivityFeed.jsx";
+import AIAssistant from "./AIAssistant.jsx";
 
 export default function ProtectedLayout() {
   const hasSession = useHasSession();
@@ -21,6 +22,7 @@ export default function ProtectedLayout() {
         </main>
         <ActivityFeed />
       </div>
+      <AIAssistant />
     </div>
   );
 }
