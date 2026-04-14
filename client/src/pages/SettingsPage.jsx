@@ -17,6 +17,9 @@ export default function SettingsPage() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showCurrent, setShowCurrent] = useState(false);
+  const [showNew, setShowNew] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [busy, setBusy] = useState(false);
 
   async function handleSubmit(e) {
@@ -60,41 +63,71 @@ export default function SettingsPage() {
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             <label className="block text-xs font-medium text-slate-600 dark:text-[#E0F7FA]/65">
               Current password
-              <input
-                required
-                type="password"
-                autoComplete="current-password"
-                placeholder="Enter your current password"
-                className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none ring-2 ring-transparent transition focus:ring-brand-cyan/50 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA] placeholder:text-slate-400 dark:placeholder:text-[#80CBC4]/50"
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
-              />
+              <div className="relative mt-1">
+                <input
+                  required
+                  type={showCurrent ? "text" : "password"}
+                  autoComplete="current-password"
+                  placeholder="Enter your current password"
+                  className="w-full rounded-lg border border-slate-300/80 bg-white px-3 py-2.5 pr-10 text-sm text-slate-900 outline-none ring-2 ring-transparent transition focus:ring-brand-cyan/50 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA] placeholder:text-slate-400 dark:placeholder:text-[#80CBC4]/50"
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowCurrent(!showCurrent)}
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-500 hover:text-slate-700 dark:text-[#80CBC4] dark:hover:text-[#E0F7FA]"
+                  tabIndex="-1"
+                >
+                  {showCurrent ? <EyeSlashIcon className="h-4 w-4" /> : <EyeIcon className="h-4 w-4" />}
+                </button>
+              </div>
             </label>
             <label className="block text-xs font-medium text-slate-600 dark:text-[#E0F7FA]/65">
               New password
-              <input
-                required
-                type="password"
-                autoComplete="new-password"
-                minLength={6}
-                placeholder="At least 6 characters"
-                className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none ring-2 ring-transparent transition focus:ring-brand-cyan/50 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA] placeholder:text-slate-400 dark:placeholder:text-[#80CBC4]/50"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-              />
+              <div className="relative mt-1">
+                <input
+                  required
+                  type={showNew ? "text" : "password"}
+                  autoComplete="new-password"
+                  minLength={6}
+                  placeholder="At least 6 characters"
+                  className="w-full rounded-lg border border-slate-300/80 bg-white px-3 py-2.5 pr-10 text-sm text-slate-900 outline-none ring-2 ring-transparent transition focus:ring-brand-cyan/50 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA] placeholder:text-slate-400 dark:placeholder:text-[#80CBC4]/50"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowNew(!showNew)}
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-500 hover:text-slate-700 dark:text-[#80CBC4] dark:hover:text-[#E0F7FA]"
+                  tabIndex="-1"
+                >
+                  {showNew ? <EyeSlashIcon className="h-4 w-4" /> : <EyeIcon className="h-4 w-4" />}
+                </button>
+              </div>
             </label>
             <label className="block text-xs font-medium text-slate-600 dark:text-[#E0F7FA]/65">
               Confirm new password
-              <input
-                required
-                type="password"
-                autoComplete="new-password"
-                minLength={6}
-                placeholder="Type your new password again"
-                className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none ring-2 ring-transparent transition focus:ring-brand-cyan/50 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA] placeholder:text-slate-400 dark:placeholder:text-[#80CBC4]/50"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
+              <div className="relative mt-1">
+                <input
+                  required
+                  type={showConfirm ? "text" : "password"}
+                  autoComplete="new-password"
+                  minLength={6}
+                  placeholder="Type your new password again"
+                  className="w-full rounded-lg border border-slate-300/80 bg-white px-3 py-2.5 pr-10 text-sm text-slate-900 outline-none ring-2 ring-transparent transition focus:ring-brand-cyan/50 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA] placeholder:text-slate-400 dark:placeholder:text-[#80CBC4]/50"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirm(!showConfirm)}
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-500 hover:text-slate-700 dark:text-[#80CBC4] dark:hover:text-[#E0F7FA]"
+                  tabIndex="-1"
+                >
+                  {showConfirm ? <EyeSlashIcon className="h-4 w-4" /> : <EyeIcon className="h-4 w-4" />}
+                </button>
+              </div>
             </label>
             <button
               type="submit"
@@ -107,5 +140,22 @@ export default function SettingsPage() {
         </section>
       </div>
     </Page>
+  );
+}
+
+function EyeIcon({ className }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+    </svg>
+  );
+}
+
+function EyeSlashIcon({ className }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+    </svg>
   );
 }
