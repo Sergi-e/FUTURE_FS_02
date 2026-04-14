@@ -236,7 +236,7 @@ export default function KanbanPage() {
   return (
     <Page className="space-y-4">
       <div>
-        <h1 className="text-2xl font-semibold text-slate-900 dark:text-[#E0F7FA]">Kanban</h1>
+        <h1 className="text-2xl font-semibold text-slate-900 dark:text-[#E0F7FA]">Pipeline</h1>
         <p className="text-sm text-slate-500 dark:text-[#E0F7FA]/50">
           Drag cards between stages to update a lead&apos;s status. Changes save automatically to your workspace.
         </p>
