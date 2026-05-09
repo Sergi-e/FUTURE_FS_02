@@ -221,7 +221,6 @@ export default function LeadDetailPage() {
               <li className="text-sm text-slate-500 dark:text-[#E0F7FA]/45">No notes yet.</li>
             ) : (
               [...(lead.notes || [])]
-                .slice()
                 .reverse()
                 .map((n) => (
                   <li

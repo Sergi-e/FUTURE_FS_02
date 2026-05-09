@@ -1,6 +1,6 @@
 import { Router } from "express";
 import OpenAI from "openai";
-import { requireAuth } from "../middleware/auth.js";
+import { protect as requireAuth } from "../middleware/auth.js";
 import Lead from "../models/Lead.js";
 
 const router = Router();
@@ -23,8 +23,8 @@ router.post("/chat", requireAuth, async (req, res, next) => {
       });
     }
 
-    // Fetch user's leads to provide context to the AI
-    const leads = await Lead.find({ user: req.user._id }).lean();
+    // Fetch all leads to provide context to the AI
+    const leads = await Lead.find({}).lean();
     
     const systemPrompt = `You are a helpful, friendly AI assistant for a CRM called "Leadrift".
 You help the user manage their sales pipeline, answer questions about their data, and guide them on how to use the app.
