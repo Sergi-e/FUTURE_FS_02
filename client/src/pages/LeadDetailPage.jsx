@@ -16,6 +16,17 @@ function toLocalInputValue(iso) {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
+function formatUsd(value) {
+  if (value == null || value === "") return "—";
+  const n = Number(value);
+  if (!Number.isFinite(n)) return "—";
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  }).format(n);
+}
+
 export default function LeadDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -25,6 +36,7 @@ export default function LeadDetailPage() {
   const [status, setStatus] = useState("new");
   const [followUp, setFollowUp] = useState("");
   const [noteText, setNoteText] = useState("");
+  const [dealValueInput, setDealValueInput] = useState("");
   const [savingMeta, setSavingMeta] = useState(false);
   const [savingNote, setSavingNote] = useState(false);
 
@@ -36,6 +48,7 @@ export default function LeadDetailPage() {
       setLead(data);
       setStatus(data.status || "new");
       setFollowUp(toLocalInputValue(data.followUpDate));
+      setDealValueInput(data.dealValue != null ? String(data.dealValue) : "");
     } catch {
       toast.error("Lead not found");
       navigate("/kanban", { replace: true });
@@ -55,6 +68,7 @@ export default function LeadDetailPage() {
         setLead(payload);
         setStatus(payload.status || "new");
         setFollowUp(toLocalInputValue(payload.followUpDate));
+        setDealValueInput(payload.dealValue != null ? String(payload.dealValue) : "");
       }
     };
     const onDeleted = (payload) => {
@@ -75,12 +89,27 @@ export default function LeadDetailPage() {
     e.preventDefault();
     setSavingMeta(true);
     try {
+      let dealValuePayload = null;
+      const trimmedDv = dealValueInput.trim().replace(/,/g, "");
+      if (trimmedDv === "") {
+        dealValuePayload = null;
+      } else {
+        const n = Number(trimmedDv);
+        if (!Number.isFinite(n) || n < 0) {
+          toast.error("Estimated value must be a non‑negative number");
+          setSavingMeta(false);
+          return;
+        }
+        dealValuePayload = n;
+      }
       const body = {
         status,
         followUpDate: followUp ? new Date(followUp).toISOString() : null,
+        dealValue: dealValuePayload,
       };
       const { data } = await api.patch(`/leads/${id}`, body);
       setLead(data);
+      setDealValueInput(data.dealValue != null ? String(data.dealValue) : "");
       toast.success("Lead updated");
     } catch (err) {
       toast.error(err.response?.data?.message || "Update failed");
@@ -185,10 +214,22 @@ export default function LeadDetailPage() {
               className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/70 px-3 py-2 text-sm dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA]"
             />
           </label>
+          <label className="block text-xs font-medium text-slate-600 dark:text-[#E0F7FA]/55">
+            Estimated deal value (USD)
+            <input
+              type="text"
+              inputMode="decimal"
+              value={dealValueInput}
+              onChange={(e) => setDealValueInput(e.target.value)}
+              placeholder="Leave empty if unknown"
+              className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/70 px-3 py-2 text-sm dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA]"
+            />
+          </label>
           <div className="text-xs text-slate-500 dark:text-[#E0F7FA]/45">
             <p>Phone: {lead.phone || "—"}</p>
             <p>Company: {lead.company || "—"}</p>
             <p>Source: {lead.source || "—"}</p>
+            <p>Saved estimate: {formatUsd(lead.dealValue)}</p>
           </div>
           <button
             type="submit"
