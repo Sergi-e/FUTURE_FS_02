@@ -68,7 +68,7 @@ export default function ActivityFeed() {
           <p className="text-xs text-slate-500 dark:text-[#E0F7FA]/45">Loading…</p>
         ) : items.length === 0 ? (
           <p className="text-xs text-slate-500 dark:text-[#E0F7FA]/45">
-            No events yet — create a lead or log an activity.
+            Activity will appear here as leads move through your pipeline.
           </p>
         ) : (
           <AnimatePresence initial={false}>
