@@ -10,6 +10,7 @@ const defaultForm = {
   company: "",
   source: "website",
   status: "new",
+  dealValue: "",
 };
 
 export default function AddLeadModal({ open, onClose, onCreated }) {
@@ -33,14 +34,25 @@ export default function AddLeadModal({ open, onClose, onCreated }) {
     e.preventDefault();
     setSaving(true);
     try {
-      const { data } = await api.post("/leads", {
+      const body = {
         name: form.name.trim(),
         email: form.email.trim(),
         phone: form.phone.trim(),
         company: form.company.trim(),
         source: form.source.trim() || "website",
         status: form.status,
-      });
+      };
+      const dv = form.dealValue.trim();
+      if (dv !== "") {
+        const n = Number(dv.replace(/,/g, ""));
+        if (!Number.isFinite(n) || n < 0) {
+          toast.error("Estimated value must be a non‑negative number");
+          setSaving(false);
+          return;
+        }
+        body.dealValue = n;
+      }
+      const { data } = await api.post("/leads", body);
       toast.success("Lead created");
       onCreated?.(data);
       window.dispatchEvent(new Event("leadrift:leads-changed"));
@@ -131,6 +143,17 @@ export default function AddLeadModal({ open, onClose, onCreated }) {
                     className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-brand-cyan/60 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA] placeholder:text-slate-400 dark:placeholder:text-[#80CBC4]/50"
                     value={form.source}
                     onChange={(e) => setForm((f) => ({ ...f, source: e.target.value }))}
+                  />
+                </label>
+                <label className="block text-xs font-medium text-slate-600 dark:text-[#E0F7FA]/60">
+                  Estimated deal value (USD, optional)
+                  <input
+                    type="text"
+                    inputMode="decimal"
+                    placeholder="e.g. 5000"
+                    className="mt-1 w-full rounded-lg border border-slate-300/80 bg-white/80 px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-brand-cyan/60 dark:border-[#2E4A5A] dark:bg-[#243B47] dark:text-[#E0F7FA] placeholder:text-slate-400 dark:placeholder:text-[#80CBC4]/50"
+                    value={form.dealValue}
+                    onChange={(e) => setForm((f) => ({ ...f, dealValue: e.target.value }))}
                   />
                 </label>
                 <label className="block text-xs font-medium text-slate-600 dark:text-[#E0F7FA]/60">
