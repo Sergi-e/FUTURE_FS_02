@@ -114,7 +114,7 @@ export default function DashboardPage() {
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-semibold text-slate-900 dark:text-[#E0F7FA]">Dashboard</h1>
         <p className="text-sm text-slate-500 dark:text-[#E0F7FA]/50">
-          Snapshot of your pipeline — stats and charts update in real time as leads change.
+          Snapshot of your pipeline, stats and charts update in real time as leads change.
         </p>
       </div>
 
