@@ -62,6 +62,7 @@ export async function createLead(req, res) {
       status,
       followUpDate,
       assignedTo,
+      dealValue,
     } = req.body;
 
     if (!name || !email) {
@@ -70,6 +71,13 @@ export async function createLead(req, res) {
 
     if (assignedTo && !mongoose.isValidObjectId(assignedTo)) {
       return res.status(400).json({ message: "Invalid assignedTo user id" });
+    }
+
+    let normalizedDealValue = null;
+    if (dealValue !== undefined && dealValue !== null && dealValue !== "") {
+      const n = Number(dealValue);
+      if (Number.isFinite(n) && n >= 0) normalizedDealValue = n;
+      else return res.status(400).json({ message: "dealValue must be a non-negative number" });
     }
 
     const initialStatus = status || "new";
@@ -82,6 +90,7 @@ export async function createLead(req, res) {
       status: initialStatus,
       followUpDate: followUpDate ? new Date(followUpDate) : null,
       assignedTo: assignedTo || null,
+      dealValue: normalizedDealValue,
     };
 
     if (initialStatus === "contacted") {
@@ -117,6 +126,7 @@ export async function updateLead(req, res) {
       status,
       followUpDate,
       assignedTo,
+      dealValue,
     } = req.body;
 
     const prevStatus = lead.status;
@@ -128,6 +138,17 @@ export async function updateLead(req, res) {
     if (source !== undefined) lead.source = String(source).trim();
     if (followUpDate !== undefined) {
       lead.followUpDate = followUpDate ? new Date(followUpDate) : null;
+    }
+    if (dealValue !== undefined) {
+      if (dealValue === null || dealValue === "") {
+        lead.dealValue = null;
+      } else {
+        const n = Number(dealValue);
+        if (!Number.isFinite(n) || n < 0) {
+          return res.status(400).json({ message: "dealValue must be a non-negative number" });
+        }
+        lead.dealValue = n;
+      }
     }
 
     if (assignedTo !== undefined) {
