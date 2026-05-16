@@ -10,6 +10,7 @@ import leadRoutes from "./routes/leads.js";
 import activityRoutes from "./routes/activities.js";
 import analyticsRoutes from "./routes/analytics.js";
 import aiRoutes from "./routes/ai.js";
+import { seedDemoLeadsIfEmpty } from "./scripts/seedDemoLeads.js";
 
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
@@ -97,6 +98,11 @@ async function start() {
   try {
     await mongoose.connect(MONGO_URI);
     console.log("MongoDB connected");
+    try {
+      await seedDemoLeadsIfEmpty();
+    } catch (seedErr) {
+      console.warn("Demo lead seed skipped:", seedErr.message || seedErr);
+    }
   } catch (err) {
     console.error("MongoDB connection failed:", err.message);
     if (String(err.message).includes("querySrv") || String(err.code) === "ECONNREFUSED") {
