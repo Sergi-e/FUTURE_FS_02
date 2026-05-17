@@ -52,7 +52,7 @@ export default function ActivityFeed() {
 
   return (
     <aside
-      className="hidden w-[300px] shrink-0 border-l border-slate-200/60 bg-white/30 backdrop-blur-md dark:border-[#2E4A5A] dark:bg-[#243B47] lg:flex lg:flex-col"
+      className="hidden w-[300px] shrink-0 border-l border-slate-200/60 bg-white/30 backdrop-blur-md dark:border-[#2E4A5A] dark:bg-[#243B47] lg:flex lg:min-h-0 lg:flex-col"
       aria-label="Live activity"
     >
       <div className="border-b border-slate-200/60 px-4 py-3 dark:border-[#2E4A5A]">
@@ -63,7 +63,10 @@ export default function ActivityFeed() {
           Live updates as leads and notes change
         </p>
       </div>
-      <div className="flex-1 space-y-2 overflow-y-auto p-3">
+      <div
+        id="activity-feed-scroll"
+        className="min-h-0 flex-1 space-y-2 overflow-y-auto overscroll-contain p-3"
+      >
         {loading ? (
           <p className="text-xs text-slate-500 dark:text-[#E0F7FA]/45">Loading…</p>
         ) : items.length === 0 ? (
