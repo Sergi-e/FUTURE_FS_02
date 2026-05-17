@@ -257,7 +257,10 @@ export default function LeadDetailPage() {
               {savingNote ? "Adding…" : "Add note"}
             </button>
           </form>
-          <ul className="max-h-[420px] space-y-3 overflow-y-auto pr-1">
+          <ul
+            data-shell-scroll=""
+            className="max-h-[420px] space-y-3 overflow-y-auto overscroll-contain pr-1"
+          >
             {(lead.notes || []).length === 0 ? (
               <li className="text-sm text-slate-500 dark:text-[#E0F7FA]/45">No notes yet.</li>
             ) : (
