@@ -125,7 +125,7 @@ export default function AnalyticsChart() {
           Weekly lead growth
         </h3>
         <p className="text-xs text-slate-500 dark:text-[#E0F7FA]/50">
-          New leads captured each week — trend at a glance
+          New leads captured each week: trend at a glance
         </p>
         <div className="mt-4 h-64 w-full">
           <ResponsiveContainer width="100%" height="100%">
@@ -171,7 +171,7 @@ export default function AnalyticsChart() {
             Leads by source
           </h3>
           <p className="text-xs text-slate-500 dark:text-[#E0F7FA]/50">
-            Pie chart — grouped from live lead records
+            Pie chart: grouped from live lead records
           </p>
           <div className="mt-4 h-64 w-full">
             {pieData.length === 0 ? (
@@ -216,7 +216,7 @@ export default function AnalyticsChart() {
             Conversion funnel
           </h3>
           <p className="text-xs text-slate-500 dark:text-[#E0F7FA]/50">
-            Bar chart — counts at each pipeline stage
+            Bar chart: counts at each pipeline stage
           </p>
           <div className="mt-4 h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">

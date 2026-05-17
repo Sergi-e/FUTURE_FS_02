@@ -11,7 +11,7 @@ function daysAgo(n) {
   return d;
 }
 
-/** Demo rows: varied names, emails, sources, stages, deal values ($500–$5000), createdAt spread for weekly chart. */
+/** Demo rows: varied names, emails, sources, stages, deal values ($500-$5000), createdAt spread for weekly chart. */
 function buildDemoDocuments() {
   const specs = [
     {
@@ -129,7 +129,7 @@ export async function seedDemoLeadsIfEmpty() {
   console.log(`Demo data: seeded ${docs.length} sample leads (empty database).`);
 }
 
-/** CLI: node scripts/seedDemoLeads.js — loads root .env via server/loadEnv pattern */
+/** CLI: node scripts/seedDemoLeads.js loads root .env via server/loadEnv pattern. */
 async function main() {
   await import("../loadEnv.js");
   const uri = process.env.MONGO_URI;

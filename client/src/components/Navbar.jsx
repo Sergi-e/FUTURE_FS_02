@@ -34,7 +34,7 @@ function scrollIntentIgnored(target) {
   return false;
 }
 
-/** While dragging Pipeline cards @dnd-kit handles the gesture — nav must not twitch. */
+/** While dragging Pipeline cards @dnd-kit handles the gesture; nav must not twitch. */
 function navScrollSuspended() {
   try {
     return typeof document !== "undefined" && document.body?.dataset?.leadriftKanbanDrag === "1";
@@ -134,7 +134,7 @@ export default function Navbar() {
       applyPrimaryAxis(d, y, mainTopRevealPx);
     }
 
-    /** Narrow screens hide the aside — guard still safe */
+    /** Narrow screens hide the aside (guard still safe). */
     function onAsideScroll() {
       if (!aside) return;
       const y = aside.scrollTop;

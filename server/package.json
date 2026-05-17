@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Leadrift CRM — Express API, MongoDB, Socket.io",
+  "description": "Leadrift CRM: Express API, MongoDB, Socket.io",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

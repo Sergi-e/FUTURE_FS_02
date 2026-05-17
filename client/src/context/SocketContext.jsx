@@ -5,7 +5,7 @@ import { getApiOrigin } from "../utils/api.js";
 
 const SocketContext = createContext(null);
 
-/** Realtime channel — uses the same origin as the REST client (`getApiOrigin`). */
+/** Realtime channel: uses the same origin as the REST client (`getApiOrigin`). */
 export function SocketProvider({ children }) {
   const { token } = useAuth();
   const [socket, setSocket] = useState(null);

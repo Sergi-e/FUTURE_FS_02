@@ -30,7 +30,7 @@ const leadSchema = new mongoose.Schema(
     followUpDate: { type: Date, default: null },
     /** Estimated deal size in USD (optional). Used for demos and pipeline reporting. */
     dealValue: { type: Number, default: null, min: 0 },
-    // Used for hot/warm/cold — we bump this on real touchpoints (notes, status → contacted, etc.)
+    // Used for hot/warm/cold; we bump this on real touchpoints (notes, status → contacted, etc.)
     lastContactedAt: { type: Date, default: null },
     assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
   },

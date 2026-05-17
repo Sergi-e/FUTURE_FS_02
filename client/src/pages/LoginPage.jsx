@@ -15,7 +15,7 @@ function getAuthSubmitErrorMessage(err) {
     if (typeof alt === "string" && alt.trim()) return alt;
   }
   if (typeof data === "string" && data.trim().startsWith("<")) {
-    return "Got HTML instead of JSON — check API URL / Vite proxy.";
+    return "Got HTML instead of JSON. Check API URL / Vite proxy.";
   }
   if (!err.response) {
     if (err.code === "ERR_NETWORK" || err.message === "Network Error") {
@@ -31,7 +31,7 @@ function getAuthSubmitErrorMessage(err) {
     return "API route not found (404). Check that the backend is running and paths use /api.";
   }
   if (status >= 500) {
-    return "Server error — is the API running and MongoDB connected? Check the terminal running the server.";
+    return "Server error: is the API running and MongoDB connected? Check the terminal running the server.";
   }
   if (status >= 400) {
     return `Request failed (${status}). If you are on a deployed site, set VITE_API_URL to your API origin when building the client.`;

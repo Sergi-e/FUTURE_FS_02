@@ -1,12 +1,12 @@
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
-/** Express middleware — expects `Authorization: Bearer <token>` from the login/register handoff. */
+/** Express middleware: expects `Authorization: Bearer <token>` from the login/register handoff. */
 export async function protect(req, res, next) {
   try {
     const header = req.headers.authorization;
     if (!header?.startsWith("Bearer ")) {
-      return res.status(401).json({ message: "Not authorized — no token" });
+      return res.status(401).json({ message: "Not authorized (no token)" });
     }
 
     const token = header.slice(7);
@@ -19,7 +19,7 @@ export async function protect(req, res, next) {
     const decoded = jwt.verify(token, secret);
     const userId = decoded.userId != null ? String(decoded.userId) : null;
     if (!userId) {
-      return res.status(401).json({ message: "Not authorized — invalid token" });
+      return res.status(401).json({ message: "Not authorized (invalid token)" });
     }
     const user = await User.findById(userId);
     if (!user) {
@@ -30,7 +30,7 @@ export async function protect(req, res, next) {
     next();
   } catch (err) {
     if (err.name === "JsonWebTokenError" || err.name === "TokenExpiredError") {
-      return res.status(401).json({ message: "Not authorized — invalid token" });
+      return res.status(401).json({ message: "Not authorized (invalid token)" });
     }
     next(err);
   }

@@ -37,7 +37,7 @@ export async function register(req, res) {
       name: name.trim(),
       email: emailNorm,
       password: hashed,
-      // Keep everyone as "user" here — promoting admins should be a separate, trusted flow.
+      // Keep everyone as "user" here; promoting admins should be a separate, trusted flow.
       role: "user",
       lastLoginAt: now,
     });

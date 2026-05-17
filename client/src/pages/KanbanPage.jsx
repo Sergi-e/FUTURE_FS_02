@@ -153,7 +153,7 @@ function KanbanEmptyState() {
         <kbd className="rounded border border-slate-300 bg-white px-1.5 py-0.5 text-xs dark:border-[#2E4A5A] dark:bg-[#243B47]">
           Ctrl+K
         </kbd>{" "}
-        or the Add lead button — then drag cards between columns as your pipeline moves.
+        or the Add lead button, then drag cards between columns as your pipeline moves.
       </p>
     </div>
   );

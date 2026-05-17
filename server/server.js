@@ -44,7 +44,7 @@ const io = new Server(httpServer, {
         credentials: true,
       }
     : {
-        // Any dev URL (localhost, 127.0.0.1, LAN IP, preview port) — strict list breaks Vite `host: true`.
+        // Any dev URL (localhost, 127.0.0.1, LAN IP, preview port): strict list breaks Vite `host: true`.
         origin: true,
         methods: ["GET", "POST"],
         credentials: true,
@@ -91,7 +91,7 @@ app.use((err, _req, res, _next) => {
 
 async function start() {
   if (!MONGO_URI) {
-    console.error("Missing MONGO_URI in .env — add it at the project root.");
+    console.error("Missing MONGO_URI in .env (add it at the project root).");
     process.exit(1);
   }
 

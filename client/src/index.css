@@ -30,7 +30,7 @@
   }
 }
 
-/* Spec: glass cards — tweak slightly in light mode so text stays readable */
+/* Spec: glass cards; tweak slightly in light mode so text stays readable */
 @layer components {
   .glass-card {
     @apply rounded-xl border border-slate-200/70 bg-white/40 shadow-lg backdrop-blur-md dark:border-[#2E4A5A] dark:bg-[#1A2F3A];

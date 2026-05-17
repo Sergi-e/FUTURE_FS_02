@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 
 /**
- * Shared page shell — fade + slide on route change.
+ * Shared page shell: fade + slide on route change.
  * @param {object} props
  * @param {import("react").ReactNode} props.children
  * @param {string} [props.className]

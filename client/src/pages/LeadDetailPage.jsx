@@ -17,9 +17,9 @@ function toLocalInputValue(iso) {
 }
 
 function formatUsd(value) {
-  if (value == null || value === "") return "—";
+  if (value == null || value === "") return "-";
   const n = Number(value);
-  if (!Number.isFinite(n)) return "—";
+  if (!Number.isFinite(n)) return "-";
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -96,7 +96,7 @@ export default function LeadDetailPage() {
       } else {
         const n = Number(trimmedDv);
         if (!Number.isFinite(n) || n < 0) {
-          toast.error("Estimated value must be a non‑negative number");
+          toast.error("Estimated value must be a non-negative number");
           setSavingMeta(false);
           return;
         }
@@ -226,9 +226,9 @@ export default function LeadDetailPage() {
             />
           </label>
           <div className="text-xs text-slate-500 dark:text-[#E0F7FA]/45">
-            <p>Phone: {lead.phone || "—"}</p>
-            <p>Company: {lead.company || "—"}</p>
-            <p>Source: {lead.source || "—"}</p>
+            <p>Phone: {lead.phone || "-"}</p>
+            <p>Company: {lead.company || "-"}</p>
+            <p>Source: {lead.source || "-"}</p>
             <p>Saved estimate: {formatUsd(lead.dealValue)}</p>
           </div>
           <button

@@ -38,7 +38,7 @@ function DashboardEmptyState() {
         Your mission control is quiet
       </h2>
       <p className="mt-2 max-w-md text-sm text-slate-600 dark:text-[#E0F7FA]/55">
-        No leads yet — add one with{" "}
+        No leads yet; add one with{" "}
         <kbd className="rounded border border-slate-300 bg-white px-1.5 py-0.5 text-xs dark:border-[#2E4A5A] dark:bg-[#243B47]">
           Ctrl+K
         </kbd>{" "}
@@ -133,7 +133,7 @@ export default function DashboardPage() {
       {urgentFollowUps.length > 0 ? (
         <section className="glass-card border-red-500/40 bg-red-500/[0.07] p-4 dark:border-red-500/35 dark:bg-red-500/10">
           <h2 className="text-sm font-semibold text-red-700 dark:text-red-300">
-            Follow-up alerts — today or overdue
+            Follow-up alerts for today or overdue
           </h2>
           <p className="text-xs text-red-600/90 dark:text-red-200/70">
             These leads need attention (highlighted in red).

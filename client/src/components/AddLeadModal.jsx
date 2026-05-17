@@ -46,7 +46,7 @@ export default function AddLeadModal({ open, onClose, onCreated }) {
       if (dv !== "") {
         const n = Number(dv.replace(/,/g, ""));
         if (!Number.isFinite(n) || n < 0) {
-          toast.error("Estimated value must be a non‑negative number");
+          toast.error("Estimated value must be a non-negative number");
           setSaving(false);
           return;
         }
