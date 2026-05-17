@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useTheme } from "../context/ThemeContext.jsx";
@@ -13,9 +14,55 @@ export default function Navbar() {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const { openAddLead } = useAddLeadCommand();
+  const headerRef = useRef(null);
+  const lastScrollY = useRef(0);
+  const [spacerHeight, setSpacerHeight] = useState(64);
+  const [hidden, setHidden] = useState(false);
+
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const update = () => setSpacerHeight(el.offsetHeight);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const main = document.getElementById("main-content");
+    if (!main) return;
+
+    lastScrollY.current = main.scrollTop;
+
+    const onScroll = () => {
+      const y = main.scrollTop;
+      const delta = y - lastScrollY.current;
+      lastScrollY.current = y;
+
+      const topZone = 40;
+      if (y <= topZone) {
+        setHidden(false);
+        return;
+      }
+
+      const threshold = 8;
+      if (delta > threshold) setHidden(true);
+      else if (delta < -threshold) setHidden(false);
+    };
+
+    main.addEventListener("scroll", onScroll, { passive: true });
+    return () => main.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="glass-card border-b border-slate-200/60 px-4 py-3 dark:border-[#2E4A5A]">
+    <>
+      <header
+        ref={headerRef}
+        className={`fixed inset-x-0 top-0 z-50 glass-card border-b border-slate-200/60 px-4 py-3 transition-transform duration-300 ease-out motion-reduce:transition-none dark:border-[#2E4A5A] ${
+          hidden ? "-translate-y-full" : "translate-y-0"
+        }`}
+      >
       <div className="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-6">
           <Link
@@ -80,5 +127,7 @@ export default function Navbar() {
         </div>
       </div>
     </header>
+      <div className="shrink-0" style={{ height: spacerHeight }} aria-hidden />
+    </>
   );
 }
