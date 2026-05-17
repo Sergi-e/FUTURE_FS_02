@@ -34,12 +34,23 @@ function scrollIntentIgnored(target) {
   return false;
 }
 
+/** While dragging Pipeline cards @dnd-kit handles the gesture — nav must not twitch. */
+function navScrollSuspended() {
+  try {
+    return typeof document !== "undefined" && document.body?.dataset?.leadriftKanbanDrag === "1";
+  } catch {
+    return false;
+  }
+}
+
 export default function Navbar() {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const { openAddLead } = useAddLeadCommand();
   const headerRef = useRef(null);
   const lastScrollY = useRef(0);
+  const touchPivot = useRef({ x: 0, y: 0, active: false });
+  const touchScrollAcc = useRef(0);
   const [spacerHeight, setSpacerHeight] = useState(64);
   const [hidden, setHidden] = useState(false);
 
@@ -58,12 +69,17 @@ export default function Navbar() {
     const aside = document.getElementById("activity-feed-scroll");
     const DELTA_THRESHOLD = 8;
     const mainTopRevealPx = 40;
+    const TOUCH_COMMIT = 14;
 
     lastScrollY.current = main?.scrollTop ?? 0;
     let lastAsideScroll = aside?.scrollTop ?? 0;
     let lastWinScroll = window.scrollY || document.documentElement.scrollTop || 0;
 
+    const nestedCleanups = [];
+    const wiredNested = new Set();
+
     function applyPrimaryAxis(deltaY, anchorScrollTop, topRevealPx) {
+      if (navScrollSuspended()) return;
       if (anchorScrollTop <= topRevealPx) {
         setHidden(false);
         return;
@@ -73,8 +89,40 @@ export default function Navbar() {
     }
 
     function applyDirection(deltaY) {
+      if (navScrollSuspended()) return;
       if (deltaY > DELTA_THRESHOLD) setHidden(true);
       else if (deltaY < -DELTA_THRESHOLD) setHidden(false);
+    }
+
+    function wireNestedScroll(el) {
+      if (!(el instanceof HTMLElement) || wiredNested.has(el)) return;
+      wiredNested.add(el);
+      let lastTop = el.scrollTop;
+
+      function onNest() {
+        if (navScrollSuspended()) return;
+        const y = el.scrollTop;
+        const d = y - lastTop;
+        lastTop = y;
+        applyDirection(d);
+      }
+
+      lastTop = el.scrollTop;
+      el.addEventListener("scroll", onNest, { passive: true });
+      nestedCleanups.push(() => {
+        el.removeEventListener("scroll", onNest);
+        wiredNested.delete(el);
+      });
+    }
+
+    function ingestScrollShellRoots(root) {
+      if (!root || typeof root.querySelectorAll !== "function") return;
+      if (root instanceof HTMLElement && root.hasAttribute("data-shell-scroll")) {
+        wireNestedScroll(root);
+      }
+      root.querySelectorAll("[data-shell-scroll]").forEach((node) => {
+        wireNestedScroll(node);
+      });
     }
 
     /** Center column + page fallback */
@@ -97,6 +145,7 @@ export default function Navbar() {
 
     /** Falls back only when `#main-content` is not the scroll container */
     function onWindowScroll() {
+      if (navScrollSuspended()) return;
       const wy = window.scrollY || document.documentElement.scrollTop || 0;
       if (main && main.scrollHeight > main.clientHeight + 2) {
         lastWinScroll = wy;
@@ -107,30 +156,101 @@ export default function Navbar() {
       applyPrimaryAxis(d, wy, mainTopRevealPx);
     }
 
-    /** Kanban/Pipeline nests `overflow-y-auto` per column — `main` stays at scrollTop 0. */
+    /** Kanban/desktop: nested lanes do not bubble scroll to `#main-content`. */
     function onWheelCapture(e) {
+      if (navScrollSuspended()) return;
       if (scrollIntentIgnored(e.target)) return;
       if (e.ctrlKey) return;
       const dy = e.deltaY;
       const absX = Math.abs(e.deltaX);
       if (absX > Math.abs(dy) && absX > 12) return;
 
-      /** Trackpads often stream small deltas; scroll listeners use DELTA_THRESHOLD. */
       const wheelThresh = 1;
       if (Math.abs(dy) < wheelThresh) return;
       if (dy > 0) setHidden(true);
       else setHidden(false);
     }
 
+    /** Phones / tablets: incremental drag scroll without `wheel` events. */
+    function onTouchStart(e) {
+      if (navScrollSuspended()) return;
+      const t = e.touches[0];
+      if (!t || scrollIntentIgnored(e.target)) {
+        touchPivot.current.active = false;
+        return;
+      }
+      touchPivot.current = { x: t.clientX, y: t.clientY, active: true };
+      touchScrollAcc.current = 0;
+    }
+
+    function onTouchMove(e) {
+      if (!touchPivot.current.active || navScrollSuspended()) return;
+      const t = e.touches[0];
+      if (!t || scrollIntentIgnored(e.target)) return;
+
+      const { x: px, y: py } = touchPivot.current;
+      const dx = t.clientX - px;
+      const dy = py - t.clientY;
+
+      touchPivot.current.x = t.clientX;
+      touchPivot.current.y = t.clientY;
+
+      const horizontallyDominant =
+        Math.abs(dx) > Math.abs(dy) * 1.15 && Math.abs(dx) > 10;
+      if (horizontallyDominant) return;
+
+      if (Math.abs(dy) < 3) return;
+
+      touchScrollAcc.current += dy;
+      while (touchScrollAcc.current >= TOUCH_COMMIT) {
+        if (!navScrollSuspended()) setHidden(true);
+        touchScrollAcc.current -= TOUCH_COMMIT;
+      }
+      while (touchScrollAcc.current <= -TOUCH_COMMIT) {
+        if (!navScrollSuspended()) setHidden(false);
+        touchScrollAcc.current += TOUCH_COMMIT;
+      }
+    }
+
+    function onTouchGestureEnd() {
+      touchPivot.current.active = false;
+      touchScrollAcc.current = 0;
+    }
+
     main?.addEventListener("scroll", onMainScroll, { passive: true });
     aside?.addEventListener("scroll", onAsideScroll, { passive: true });
     window.addEventListener("scroll", onWindowScroll, { passive: true });
     window.addEventListener("wheel", onWheelCapture, { passive: true, capture: true });
+    window.addEventListener("touchstart", onTouchStart, { passive: true, capture: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: true, capture: true });
+    window.addEventListener("touchend", onTouchGestureEnd, { passive: true, capture: true });
+    window.addEventListener("touchcancel", onTouchGestureEnd, { passive: true, capture: true });
+
+    let mutationObserver = null;
+    if (main) {
+      ingestScrollShellRoots(main);
+      mutationObserver = new MutationObserver((records) => {
+        for (const rec of records) {
+          rec.addedNodes.forEach((node) => {
+            if (node.nodeType === 1) ingestScrollShellRoots(node);
+          });
+        }
+      });
+      mutationObserver.observe(main, { childList: true, subtree: true });
+    }
+
     return () => {
       main?.removeEventListener("scroll", onMainScroll);
       aside?.removeEventListener("scroll", onAsideScroll);
       window.removeEventListener("scroll", onWindowScroll);
       window.removeEventListener("wheel", onWheelCapture, true);
+      window.removeEventListener("touchstart", onTouchStart, true);
+      window.removeEventListener("touchmove", onTouchMove, true);
+      window.removeEventListener("touchend", onTouchGestureEnd, true);
+      window.removeEventListener("touchcancel", onTouchGestureEnd, true);
+      mutationObserver?.disconnect();
+      nestedCleanups.forEach((fn) => fn());
+      wiredNested.clear();
     };
   }, []);
 
@@ -138,7 +258,7 @@ export default function Navbar() {
     <>
       <header
         ref={headerRef}
-        className={`fixed inset-x-0 top-0 z-50 glass-card border-b border-slate-200/60 px-4 py-3 transition-transform duration-300 ease-out motion-reduce:transition-none dark:border-[#2E4A5A] ${
+        className={`fixed inset-x-0 top-0 z-50 glass-card border-b border-slate-200/60 px-4 pb-3 pt-[calc(0.75rem+env(safe-area-inset-top,0px))] transition-transform duration-300 ease-out motion-reduce:transition-none dark:border-[#2E4A5A] ${
           hidden ? "-translate-y-full pointer-events-none" : "translate-y-0"
         }`}
       >
