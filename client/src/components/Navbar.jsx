@@ -31,28 +31,66 @@ export default function Navbar() {
 
   useEffect(() => {
     const main = document.getElementById("main-content");
-    if (!main) return;
+    const aside = document.getElementById("activity-feed-scroll");
+    const DELTA_THRESHOLD = 8;
+    const mainTopRevealPx = 40;
 
-    lastScrollY.current = main.scrollTop;
+    lastScrollY.current = main?.scrollTop ?? 0;
+    let lastAsideScroll = aside?.scrollTop ?? 0;
+    let lastWinScroll = window.scrollY || document.documentElement.scrollTop || 0;
 
-    const onScroll = () => {
-      const y = main.scrollTop;
-      const delta = y - lastScrollY.current;
-      lastScrollY.current = y;
-
-      const topZone = 40;
-      if (y <= topZone) {
+    function applyPrimaryAxis(deltaY, anchorScrollTop, topRevealPx) {
+      if (anchorScrollTop <= topRevealPx) {
         setHidden(false);
         return;
       }
+      if (deltaY > DELTA_THRESHOLD) setHidden(true);
+      else if (deltaY < -DELTA_THRESHOLD) setHidden(false);
+    }
 
-      const threshold = 8;
-      if (delta > threshold) setHidden(true);
-      else if (delta < -threshold) setHidden(false);
+    function applyDirection(deltaY) {
+      if (deltaY > DELTA_THRESHOLD) setHidden(true);
+      else if (deltaY < -DELTA_THRESHOLD) setHidden(false);
+    }
+
+    /** Center column + page fallback */
+    function onMainScroll() {
+      if (!main) return;
+      const y = main.scrollTop;
+      const d = y - lastScrollY.current;
+      lastScrollY.current = y;
+      applyPrimaryAxis(d, y, mainTopRevealPx);
+    }
+
+    /** Narrow screens hide the aside — guard still safe */
+    function onAsideScroll() {
+      if (!aside) return;
+      const y = aside.scrollTop;
+      const d = y - lastAsideScroll;
+      lastAsideScroll = y;
+      applyDirection(d);
+    }
+
+    /** Falls back only when `#main-content` is not the scroll container */
+    function onWindowScroll() {
+      const wy = window.scrollY || document.documentElement.scrollTop || 0;
+      if (main && main.scrollHeight > main.clientHeight + 2) {
+        lastWinScroll = wy;
+        return;
+      }
+      const d = wy - lastWinScroll;
+      lastWinScroll = wy;
+      applyPrimaryAxis(d, wy, mainTopRevealPx);
+    }
+
+    main?.addEventListener("scroll", onMainScroll, { passive: true });
+    aside?.addEventListener("scroll", onAsideScroll, { passive: true });
+    window.addEventListener("scroll", onWindowScroll, { passive: true });
+    return () => {
+      main?.removeEventListener("scroll", onMainScroll);
+      aside?.removeEventListener("scroll", onAsideScroll);
+      window.removeEventListener("scroll", onWindowScroll);
     };
-
-    main.addEventListener("scroll", onScroll, { passive: true });
-    return () => main.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
