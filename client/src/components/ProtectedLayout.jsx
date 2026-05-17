@@ -12,10 +12,10 @@ export default function ProtectedLayout() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex h-[100svh] min-h-0 flex-col overflow-hidden">
       <Navbar />
-      <div className="flex min-h-0 flex-1">
-        <main id="main-content" className="flex min-h-0 flex-1 flex-col overflow-y-auto pb-4">
+      <div className="flex min-h-0 min-w-0 flex-1">
+        <main id="main-content" className="flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto overflow-x-hidden pb-4">
           <div className="mx-auto w-full max-w-[1400px] flex-1 p-4 md:p-6">
             <Outlet />
           </div>
