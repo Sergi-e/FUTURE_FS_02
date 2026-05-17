@@ -258,6 +258,7 @@ export default function Navbar() {
     <>
       <header
         ref={headerRef}
+        inert={hidden ? true : undefined}
         className={`fixed inset-x-0 top-0 z-50 glass-card border-b border-slate-200/60 px-4 pb-3 pt-[calc(0.75rem+env(safe-area-inset-top,0px))] transition-transform duration-300 ease-out motion-reduce:transition-none dark:border-[#2E4A5A] ${
           hidden ? "-translate-y-full pointer-events-none" : "translate-y-0"
         }`}
