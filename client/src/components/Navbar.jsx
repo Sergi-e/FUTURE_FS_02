@@ -139,7 +139,7 @@ export default function Navbar() {
       <header
         ref={headerRef}
         className={`fixed inset-x-0 top-0 z-50 glass-card border-b border-slate-200/60 px-4 py-3 transition-transform duration-300 ease-out motion-reduce:transition-none dark:border-[#2E4A5A] ${
-          hidden ? "-translate-y-full" : "translate-y-0"
+          hidden ? "-translate-y-full pointer-events-none" : "translate-y-0"
         }`}
       >
       <div className="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-3">
@@ -206,7 +206,11 @@ export default function Navbar() {
         </div>
       </div>
     </header>
-      <div className="shrink-0" style={{ height: spacerHeight }} aria-hidden />
+      <div
+        className="shrink-0 overflow-hidden transition-[height] duration-300 ease-out motion-reduce:transition-none"
+        style={{ height: hidden ? 0 : spacerHeight }}
+        aria-hidden
+      />
     </>
   );
 }
