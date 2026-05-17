@@ -10,6 +10,30 @@ const linkClass =
 const activeClass =
   "bg-brand-cyan/15 text-brand-cyan dark:bg-brand-cyan/20 dark:text-violet-200";
 
+/** Wheel/touch intents over modals & text fields should not drive the navbar. */
+function scrollIntentIgnored(target) {
+  if (!(target instanceof Element)) return true;
+
+  const inModal = target.closest('[aria-modal="true"], [role="dialog"]');
+  if (inModal) return true;
+
+  const inFormControl = target.closest("textarea, select, option, [contenteditable='true']");
+  if (inFormControl) return true;
+
+  const input = target.closest("input");
+  if (input) {
+    const type = String(input.type || "text").toLowerCase();
+    if (
+      !["button", "checkbox", "radio", "submit", "reset", "hidden", "range", "color", "file"].includes(
+        type
+      )
+    )
+      return true;
+  }
+
+  return false;
+}
+
 export default function Navbar() {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
@@ -83,13 +107,30 @@ export default function Navbar() {
       applyPrimaryAxis(d, wy, mainTopRevealPx);
     }
 
+    /** Kanban/Pipeline nests `overflow-y-auto` per column — `main` stays at scrollTop 0. */
+    function onWheelCapture(e) {
+      if (scrollIntentIgnored(e.target)) return;
+      if (e.ctrlKey) return;
+      const dy = e.deltaY;
+      const absX = Math.abs(e.deltaX);
+      if (absX > Math.abs(dy) && absX > 12) return;
+
+      /** Trackpads often stream small deltas; scroll listeners use DELTA_THRESHOLD. */
+      const wheelThresh = 1;
+      if (Math.abs(dy) < wheelThresh) return;
+      if (dy > 0) setHidden(true);
+      else setHidden(false);
+    }
+
     main?.addEventListener("scroll", onMainScroll, { passive: true });
     aside?.addEventListener("scroll", onAsideScroll, { passive: true });
     window.addEventListener("scroll", onWindowScroll, { passive: true });
+    window.addEventListener("wheel", onWheelCapture, { passive: true, capture: true });
     return () => {
       main?.removeEventListener("scroll", onMainScroll);
       aside?.removeEventListener("scroll", onAsideScroll);
       window.removeEventListener("scroll", onWindowScroll);
+      window.removeEventListener("wheel", onWheelCapture, true);
     };
   }, []);
 
