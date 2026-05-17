@@ -126,7 +126,12 @@ function KanbanColumn({ status, title, headerClass, ringClass, leads, children }
           {leads.length}
         </span>
       </div>
-      <div className="flex flex-1 flex-col gap-2 overflow-y-auto p-3 pr-1">{children}</div>
+      <div
+        className="flex flex-1 flex-col gap-2 overflow-y-auto overscroll-contain p-3 pr-1"
+        data-shell-scroll=""
+      >
+        {children}
+      </div>
     </div>
   );
 }
@@ -248,9 +253,18 @@ export default function KanbanPage() {
         <DndContext
           sensors={sensors}
           collisionDetection={closestCorners}
-          onDragStart={({ active }) => setActiveId(active.id)}
-          onDragCancel={() => setActiveId(null)}
-          onDragEnd={handleDragEnd}
+          onDragStart={({ active }) => {
+            setActiveId(active.id);
+            document.body.dataset.leadriftKanbanDrag = "1";
+          }}
+          onDragCancel={() => {
+            setActiveId(null);
+            delete document.body.dataset.leadriftKanbanDrag;
+          }}
+          onDragEnd={(e) => {
+            delete document.body.dataset.leadriftKanbanDrag;
+            handleDragEnd(e);
+          }}
         >
           <div className="-mx-4 flex flex-col gap-4 overflow-x-auto px-4 pb-1 lg:mx-0 lg:flex-row lg:items-start lg:overflow-visible lg:px-0">
             {COLUMNS.map((col) => (
